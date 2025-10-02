@@ -34,6 +34,10 @@ Partial Class Form1
         Me.CalculateButton = New System.Windows.Forms.Button()
         Me.ExitButton = New System.Windows.Forms.Button()
         Me.InputTextBox = New System.Windows.Forms.TextBox()
+        Me.R1Label = New System.Windows.Forms.Label()
+        Me.C1Label = New System.Windows.Forms.Label()
+        Me.C2Label = New System.Windows.Forms.Label()
+        Me.L1Label = New System.Windows.Forms.Label()
         CType(Me.SourceVoltageTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -144,11 +148,51 @@ Partial Class Form1
         Me.InputTextBox.Size = New System.Drawing.Size(659, 26)
         Me.InputTextBox.TabIndex = 0
         '
+        'R1Label
+        '
+        Me.R1Label.AutoSize = True
+        Me.R1Label.Location = New System.Drawing.Point(12, 138)
+        Me.R1Label.Name = "R1Label"
+        Me.R1Label.Size = New System.Drawing.Size(75, 20)
+        Me.R1Label.TabIndex = 9
+        Me.R1Label.Text = "R1 Value"
+        '
+        'C1Label
+        '
+        Me.C1Label.AutoSize = True
+        Me.C1Label.Location = New System.Drawing.Point(12, 177)
+        Me.C1Label.Name = "C1Label"
+        Me.C1Label.Size = New System.Drawing.Size(74, 20)
+        Me.C1Label.TabIndex = 10
+        Me.C1Label.Text = "C1 Value"
+        '
+        'C2Label
+        '
+        Me.C2Label.AutoSize = True
+        Me.C2Label.Location = New System.Drawing.Point(18, 221)
+        Me.C2Label.Name = "C2Label"
+        Me.C2Label.Size = New System.Drawing.Size(74, 20)
+        Me.C2Label.TabIndex = 11
+        Me.C2Label.Text = "C2 Value"
+        '
+        'L1Label
+        '
+        Me.L1Label.AutoSize = True
+        Me.L1Label.Location = New System.Drawing.Point(133, 138)
+        Me.L1Label.Name = "L1Label"
+        Me.L1Label.Size = New System.Drawing.Size(72, 20)
+        Me.L1Label.TabIndex = 12
+        Me.L1Label.Text = "L1 Value"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1660, 1085)
+        Me.Controls.Add(Me.L1Label)
+        Me.Controls.Add(Me.C2Label)
+        Me.Controls.Add(Me.C1Label)
+        Me.Controls.Add(Me.R1Label)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.SourceResistanceLabel)
@@ -181,4 +225,8 @@ Partial Class Form1
     Friend WithEvents ExitButton As Button
     Friend WithEvents CalculateButton As Button
     Friend WithEvents InputTextBox As TextBox
+    Friend WithEvents R1Label As Label
+    Friend WithEvents C1Label As Label
+    Friend WithEvents C2Label As Label
+    Friend WithEvents L1Label As Label
 End Class
