@@ -13,7 +13,11 @@
 
     Private Sub CalculateButton_Click(sender As Object, e As EventArgs) Handles CalculateButton.Click
         If InputTextBox.Text <> "" And IsNumeric(InputTextBox.Text) Then
-            MsgBox(InputTextBox.Text.ToString("c"))
+            'get text from textbox1 and format as scientific notation using ToString method
+            InputTextBox.Text = CDec(InputTextBox.Text).ToString("0.00E+00")
+
+
+
         End If
     End Sub
 
