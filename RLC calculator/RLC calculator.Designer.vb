@@ -38,6 +38,20 @@ Partial Class Form1
         Me.C1Label = New System.Windows.Forms.Label()
         Me.C2Label = New System.Windows.Forms.Label()
         Me.L1Label = New System.Windows.Forms.Label()
+        Me.ResistanceComboBox = New System.Windows.Forms.ComboBox()
+        Me.ResistancePrefixComboBox = New System.Windows.Forms.ComboBox()
+        Me.InductanceComboBox = New System.Windows.Forms.ComboBox()
+        Me.InductorPrefixComboBox = New System.Windows.Forms.ComboBox()
+        Me.Capacitor1ComboBox = New System.Windows.Forms.ComboBox()
+        Me.Cap1PrefixComboBox = New System.Windows.Forms.ComboBox()
+        Me.Cap2PrefixComboBox = New System.Windows.Forms.ComboBox()
+        Me.Capacitor2ComboBox = New System.Windows.Forms.ComboBox()
+        Me.AnswersLabel = New System.Windows.Forms.Label()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.InputLabel = New System.Windows.Forms.Label()
+        Me.OutputLabel = New System.Windows.Forms.Label()
+        Me.WindingResistanceTextBox = New System.Windows.Forms.TextBox()
+        Me.WindingResistanceLabel = New System.Windows.Forms.Label()
         CType(Me.SourceVoltageTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -45,7 +59,7 @@ Partial Class Form1
         '
         'SourceVoltageTrackBar
         '
-        Me.SourceVoltageTrackBar.Location = New System.Drawing.Point(12, 278)
+        Me.SourceVoltageTrackBar.Location = New System.Drawing.Point(16, 303)
         Me.SourceVoltageTrackBar.Name = "SourceVoltageTrackBar"
         Me.SourceVoltageTrackBar.Orientation = System.Windows.Forms.Orientation.Vertical
         Me.SourceVoltageTrackBar.Size = New System.Drawing.Size(69, 160)
@@ -55,7 +69,7 @@ Partial Class Form1
         '
         Me.AnswersListBox.FormattingEnabled = True
         Me.AnswersListBox.ItemHeight = 20
-        Me.AnswersListBox.Location = New System.Drawing.Point(545, 12)
+        Me.AnswersListBox.Location = New System.Drawing.Point(547, 41)
         Me.AnswersListBox.Name = "AnswersListBox"
         Me.AnswersListBox.Size = New System.Drawing.Size(243, 404)
         Me.AnswersListBox.TabIndex = 1
@@ -70,7 +84,7 @@ Partial Class Form1
         'SourceVoltageLabel
         '
         Me.SourceVoltageLabel.AutoSize = True
-        Me.SourceVoltageLabel.Location = New System.Drawing.Point(8, 255)
+        Me.SourceVoltageLabel.Location = New System.Drawing.Point(12, 280)
         Me.SourceVoltageLabel.Name = "SourceVoltageLabel"
         Me.SourceVoltageLabel.Size = New System.Drawing.Size(119, 20)
         Me.SourceVoltageLabel.TabIndex = 3
@@ -104,6 +118,9 @@ Partial Class Form1
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.OutputLabel)
+        Me.GroupBox1.Controls.Add(Me.InputLabel)
+        Me.GroupBox1.Controls.Add(Me.TextBox1)
         Me.GroupBox1.Controls.Add(Me.InputTextBox)
         Me.GroupBox1.Location = New System.Drawing.Point(46, 522)
         Me.GroupBox1.Name = "GroupBox1"
@@ -160,7 +177,7 @@ Partial Class Form1
         'C1Label
         '
         Me.C1Label.AutoSize = True
-        Me.C1Label.Location = New System.Drawing.Point(12, 177)
+        Me.C1Label.Location = New System.Drawing.Point(279, 18)
         Me.C1Label.Name = "C1Label"
         Me.C1Label.Size = New System.Drawing.Size(74, 20)
         Me.C1Label.TabIndex = 10
@@ -169,7 +186,7 @@ Partial Class Form1
         'C2Label
         '
         Me.C2Label.AutoSize = True
-        Me.C2Label.Location = New System.Drawing.Point(18, 221)
+        Me.C2Label.Location = New System.Drawing.Point(279, 96)
         Me.C2Label.Name = "C2Label"
         Me.C2Label.Size = New System.Drawing.Size(74, 20)
         Me.C2Label.TabIndex = 11
@@ -178,17 +195,142 @@ Partial Class Form1
         'L1Label
         '
         Me.L1Label.AutoSize = True
-        Me.L1Label.Location = New System.Drawing.Point(133, 138)
+        Me.L1Label.Location = New System.Drawing.Point(12, 207)
         Me.L1Label.Name = "L1Label"
         Me.L1Label.Size = New System.Drawing.Size(72, 20)
         Me.L1Label.TabIndex = 12
         Me.L1Label.Text = "L1 Value"
+        '
+        'ResistanceComboBox
+        '
+        Me.ResistanceComboBox.FormattingEnabled = True
+        Me.ResistanceComboBox.Location = New System.Drawing.Point(12, 161)
+        Me.ResistanceComboBox.Name = "ResistanceComboBox"
+        Me.ResistanceComboBox.Size = New System.Drawing.Size(121, 28)
+        Me.ResistanceComboBox.TabIndex = 13
+        '
+        'ResistancePrefixComboBox
+        '
+        Me.ResistancePrefixComboBox.FormattingEnabled = True
+        Me.ResistancePrefixComboBox.Location = New System.Drawing.Point(149, 161)
+        Me.ResistancePrefixComboBox.Name = "ResistancePrefixComboBox"
+        Me.ResistancePrefixComboBox.Size = New System.Drawing.Size(74, 28)
+        Me.ResistancePrefixComboBox.TabIndex = 14
+        '
+        'InductanceComboBox
+        '
+        Me.InductanceComboBox.FormattingEnabled = True
+        Me.InductanceComboBox.Location = New System.Drawing.Point(16, 230)
+        Me.InductanceComboBox.Name = "InductanceComboBox"
+        Me.InductanceComboBox.Size = New System.Drawing.Size(121, 28)
+        Me.InductanceComboBox.TabIndex = 15
+        '
+        'InductorPrefixComboBox
+        '
+        Me.InductorPrefixComboBox.FormattingEnabled = True
+        Me.InductorPrefixComboBox.Location = New System.Drawing.Point(149, 230)
+        Me.InductorPrefixComboBox.Name = "InductorPrefixComboBox"
+        Me.InductorPrefixComboBox.Size = New System.Drawing.Size(74, 28)
+        Me.InductorPrefixComboBox.TabIndex = 16
+        '
+        'Capacitor1ComboBox
+        '
+        Me.Capacitor1ComboBox.FormattingEnabled = True
+        Me.Capacitor1ComboBox.Location = New System.Drawing.Point(283, 41)
+        Me.Capacitor1ComboBox.Name = "Capacitor1ComboBox"
+        Me.Capacitor1ComboBox.Size = New System.Drawing.Size(121, 28)
+        Me.Capacitor1ComboBox.TabIndex = 17
+        '
+        'Cap1PrefixComboBox
+        '
+        Me.Cap1PrefixComboBox.FormattingEnabled = True
+        Me.Cap1PrefixComboBox.Location = New System.Drawing.Point(440, 41)
+        Me.Cap1PrefixComboBox.Name = "Cap1PrefixComboBox"
+        Me.Cap1PrefixComboBox.Size = New System.Drawing.Size(64, 28)
+        Me.Cap1PrefixComboBox.TabIndex = 18
+        '
+        'Cap2PrefixComboBox
+        '
+        Me.Cap2PrefixComboBox.FormattingEnabled = True
+        Me.Cap2PrefixComboBox.Location = New System.Drawing.Point(440, 130)
+        Me.Cap2PrefixComboBox.Name = "Cap2PrefixComboBox"
+        Me.Cap2PrefixComboBox.Size = New System.Drawing.Size(64, 28)
+        Me.Cap2PrefixComboBox.TabIndex = 19
+        '
+        'Capacitor2ComboBox
+        '
+        Me.Capacitor2ComboBox.FormattingEnabled = True
+        Me.Capacitor2ComboBox.Location = New System.Drawing.Point(283, 130)
+        Me.Capacitor2ComboBox.Name = "Capacitor2ComboBox"
+        Me.Capacitor2ComboBox.Size = New System.Drawing.Size(121, 28)
+        Me.Capacitor2ComboBox.TabIndex = 20
+        '
+        'AnswersLabel
+        '
+        Me.AnswersLabel.AutoSize = True
+        Me.AnswersLabel.Location = New System.Drawing.Point(555, 18)
+        Me.AnswersLabel.Name = "AnswersLabel"
+        Me.AnswersLabel.Size = New System.Drawing.Size(70, 20)
+        Me.AnswersLabel.TabIndex = 21
+        Me.AnswersLabel.Text = "Answers"
+        '
+        'TextBox1
+        '
+        Me.TextBox1.Location = New System.Drawing.Point(30, 146)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(659, 26)
+        Me.TextBox1.TabIndex = 1
+        '
+        'InputLabel
+        '
+        Me.InputLabel.AutoSize = True
+        Me.InputLabel.Location = New System.Drawing.Point(26, 22)
+        Me.InputLabel.Name = "InputLabel"
+        Me.InputLabel.Size = New System.Drawing.Size(46, 20)
+        Me.InputLabel.TabIndex = 2
+        Me.InputLabel.Text = "Input"
+        '
+        'OutputLabel
+        '
+        Me.OutputLabel.AutoSize = True
+        Me.OutputLabel.Location = New System.Drawing.Point(26, 123)
+        Me.OutputLabel.Name = "OutputLabel"
+        Me.OutputLabel.Size = New System.Drawing.Size(58, 20)
+        Me.OutputLabel.TabIndex = 3
+        Me.OutputLabel.Text = "Output"
+        '
+        'WindingResistanceTextBox
+        '
+        Me.WindingResistanceTextBox.Location = New System.Drawing.Point(243, 232)
+        Me.WindingResistanceTextBox.Name = "WindingResistanceTextBox"
+        Me.WindingResistanceTextBox.Size = New System.Drawing.Size(100, 26)
+        Me.WindingResistanceTextBox.TabIndex = 22
+        '
+        'WindingResistanceLabel
+        '
+        Me.WindingResistanceLabel.AutoSize = True
+        Me.WindingResistanceLabel.Location = New System.Drawing.Point(239, 198)
+        Me.WindingResistanceLabel.Name = "WindingResistanceLabel"
+        Me.WindingResistanceLabel.Size = New System.Drawing.Size(150, 20)
+        Me.WindingResistanceLabel.TabIndex = 23
+        Me.WindingResistanceLabel.Text = "Winding Resistance"
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1660, 1085)
+        Me.Controls.Add(Me.WindingResistanceLabel)
+        Me.Controls.Add(Me.WindingResistanceTextBox)
+        Me.Controls.Add(Me.AnswersLabel)
+        Me.Controls.Add(Me.Capacitor2ComboBox)
+        Me.Controls.Add(Me.Cap2PrefixComboBox)
+        Me.Controls.Add(Me.Cap1PrefixComboBox)
+        Me.Controls.Add(Me.Capacitor1ComboBox)
+        Me.Controls.Add(Me.InductorPrefixComboBox)
+        Me.Controls.Add(Me.InductanceComboBox)
+        Me.Controls.Add(Me.ResistancePrefixComboBox)
+        Me.Controls.Add(Me.ResistanceComboBox)
         Me.Controls.Add(Me.L1Label)
         Me.Controls.Add(Me.C2Label)
         Me.Controls.Add(Me.C1Label)
@@ -229,4 +371,18 @@ Partial Class Form1
     Friend WithEvents C1Label As Label
     Friend WithEvents C2Label As Label
     Friend WithEvents L1Label As Label
+    Friend WithEvents ResistanceComboBox As ComboBox
+    Friend WithEvents ResistancePrefixComboBox As ComboBox
+    Friend WithEvents InductanceComboBox As ComboBox
+    Friend WithEvents InductorPrefixComboBox As ComboBox
+    Friend WithEvents Capacitor1ComboBox As ComboBox
+    Friend WithEvents Cap1PrefixComboBox As ComboBox
+    Friend WithEvents Cap2PrefixComboBox As ComboBox
+    Friend WithEvents Capacitor2ComboBox As ComboBox
+    Friend WithEvents AnswersLabel As Label
+    Friend WithEvents OutputLabel As Label
+    Friend WithEvents InputLabel As Label
+    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents WindingResistanceTextBox As TextBox
+    Friend WithEvents WindingResistanceLabel As Label
 End Class
