@@ -67,9 +67,15 @@
         Me.Close()
     End Sub
 
-    Private Sub TestTextBox_TextChanged(sender As Object, e As EventArgs) Handles TestTextBox.TextChanged
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ' Clear any design-time items first, if necessary
+        SourceResistanceComboBox.Items.Clear()
 
+        ' Add the required options
+        SourceResistanceComboBox.Items.Add("50 Ω")
+        SourceResistanceComboBox.Items.Add("400 Ω")
+
+        ' Optional: Select a default item
+        SourceResistanceComboBox.SelectedIndex = 0
     End Sub
-
-
 End Class
