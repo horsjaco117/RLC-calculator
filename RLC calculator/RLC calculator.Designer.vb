@@ -56,6 +56,7 @@ Partial Class Form1
         Me.FormatLabel = New System.Windows.Forms.Label()
         Me.RectangularRadioButton1 = New System.Windows.Forms.RadioButton()
         Me.PolarRadioButton = New System.Windows.Forms.RadioButton()
+        Me.SourceVoltageTextBox = New System.Windows.Forms.TextBox()
         CType(Me.SourceVoltageTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -361,11 +362,20 @@ Partial Class Form1
         Me.PolarRadioButton.Text = "Polar Form"
         Me.PolarRadioButton.UseVisualStyleBackColor = True
         '
+        'SourceVoltageTextBox
+        '
+        Me.SourceVoltageTextBox.Location = New System.Drawing.Point(56, 303)
+        Me.SourceVoltageTextBox.Name = "SourceVoltageTextBox"
+        Me.SourceVoltageTextBox.Size = New System.Drawing.Size(100, 26)
+        Me.SourceVoltageTextBox.TabIndex = 26
+        Me.SourceVoltageTextBox.Text = "0 Vp"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1660, 1085)
+        Me.Controls.Add(Me.SourceVoltageTextBox)
         Me.Controls.Add(Me.FormatLabel)
         Me.Controls.Add(Me.FormatGroupBox)
         Me.Controls.Add(Me.WindingResistanceLabel)
@@ -439,4 +449,5 @@ Partial Class Form1
     Friend WithEvents FormatLabel As Label
     Friend WithEvents PolarRadioButton As RadioButton
     Friend WithEvents RectangularRadioButton1 As RadioButton
+    Friend WithEvents SourceVoltageTextBox As TextBox
 End Class

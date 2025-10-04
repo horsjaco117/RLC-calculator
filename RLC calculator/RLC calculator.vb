@@ -1,5 +1,8 @@
 ﻿Public Class Form1
     Private Sub SourceVoltageTrackBar_Scroll(sender As Object, e As EventArgs) Handles SourceVoltageTrackBar.Scroll
+        SourceVoltageTrackBar.Minimum = 0 'Sets minimum input voltage
+        SourceVoltageTrackBar.Maximum = 10 'Sets maximum input voltage
+        SourceVoltageTextBox.Text = SourceVoltageTrackBar.Value.ToString() & " Vp"
 
     End Sub
 
@@ -32,6 +35,10 @@
     End Sub
 
     Private Sub RadioButton2_CheckedChanged(sender As Object, e As EventArgs) Handles PolarRadioButton.CheckedChanged
+
+    End Sub
+
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
     End Sub
 End Class
