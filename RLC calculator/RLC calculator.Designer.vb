@@ -30,10 +30,13 @@ Partial Class Form1
         Me.SourceResistanceComboBox = New System.Windows.Forms.ComboBox()
         Me.SourceResistanceLabel = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.CalculateButton = New System.Windows.Forms.Button()
-        Me.ExitButton = New System.Windows.Forms.Button()
+        Me.OutputLabel = New System.Windows.Forms.Label()
+        Me.InputLabel = New System.Windows.Forms.Label()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.InputTextBox = New System.Windows.Forms.TextBox()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.ExitButton = New System.Windows.Forms.Button()
+        Me.CalculateButton = New System.Windows.Forms.Button()
         Me.R1Label = New System.Windows.Forms.Label()
         Me.C1Label = New System.Windows.Forms.Label()
         Me.C2Label = New System.Windows.Forms.Label()
@@ -47,14 +50,16 @@ Partial Class Form1
         Me.Cap2PrefixComboBox = New System.Windows.Forms.ComboBox()
         Me.Capacitor2ComboBox = New System.Windows.Forms.ComboBox()
         Me.AnswersLabel = New System.Windows.Forms.Label()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
-        Me.InputLabel = New System.Windows.Forms.Label()
-        Me.OutputLabel = New System.Windows.Forms.Label()
         Me.WindingResistanceTextBox = New System.Windows.Forms.TextBox()
         Me.WindingResistanceLabel = New System.Windows.Forms.Label()
+        Me.FormatGroupBox = New System.Windows.Forms.GroupBox()
+        Me.FormatLabel = New System.Windows.Forms.Label()
+        Me.RectangularRadioButton1 = New System.Windows.Forms.RadioButton()
+        Me.PolarRadioButton = New System.Windows.Forms.RadioButton()
         CType(Me.SourceVoltageTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
+        Me.FormatGroupBox.SuspendLayout()
         Me.SuspendLayout()
         '
         'SourceVoltageTrackBar
@@ -129,6 +134,38 @@ Partial Class Form1
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "GroupBox1"
         '
+        'OutputLabel
+        '
+        Me.OutputLabel.AutoSize = True
+        Me.OutputLabel.Location = New System.Drawing.Point(26, 123)
+        Me.OutputLabel.Name = "OutputLabel"
+        Me.OutputLabel.Size = New System.Drawing.Size(58, 20)
+        Me.OutputLabel.TabIndex = 3
+        Me.OutputLabel.Text = "Output"
+        '
+        'InputLabel
+        '
+        Me.InputLabel.AutoSize = True
+        Me.InputLabel.Location = New System.Drawing.Point(26, 22)
+        Me.InputLabel.Name = "InputLabel"
+        Me.InputLabel.Size = New System.Drawing.Size(46, 20)
+        Me.InputLabel.TabIndex = 2
+        Me.InputLabel.Text = "Input"
+        '
+        'TextBox1
+        '
+        Me.TextBox1.Location = New System.Drawing.Point(30, 146)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(659, 26)
+        Me.TextBox1.TabIndex = 1
+        '
+        'InputTextBox
+        '
+        Me.InputTextBox.Location = New System.Drawing.Point(30, 50)
+        Me.InputTextBox.Name = "InputTextBox"
+        Me.InputTextBox.Size = New System.Drawing.Size(659, 26)
+        Me.InputTextBox.TabIndex = 0
+        '
         'GroupBox2
         '
         Me.GroupBox2.Controls.Add(Me.ExitButton)
@@ -140,15 +177,6 @@ Partial Class Form1
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "GroupBox2"
         '
-        'CalculateButton
-        '
-        Me.CalculateButton.Location = New System.Drawing.Point(56, 37)
-        Me.CalculateButton.Name = "CalculateButton"
-        Me.CalculateButton.Size = New System.Drawing.Size(244, 219)
-        Me.CalculateButton.TabIndex = 0
-        Me.CalculateButton.Text = "&Calculate"
-        Me.CalculateButton.UseVisualStyleBackColor = True
-        '
         'ExitButton
         '
         Me.ExitButton.Location = New System.Drawing.Point(352, 39)
@@ -158,12 +186,14 @@ Partial Class Form1
         Me.ExitButton.Text = "&Exit"
         Me.ExitButton.UseVisualStyleBackColor = True
         '
-        'InputTextBox
+        'CalculateButton
         '
-        Me.InputTextBox.Location = New System.Drawing.Point(30, 50)
-        Me.InputTextBox.Name = "InputTextBox"
-        Me.InputTextBox.Size = New System.Drawing.Size(659, 26)
-        Me.InputTextBox.TabIndex = 0
+        Me.CalculateButton.Location = New System.Drawing.Point(56, 37)
+        Me.CalculateButton.Name = "CalculateButton"
+        Me.CalculateButton.Size = New System.Drawing.Size(244, 219)
+        Me.CalculateButton.TabIndex = 0
+        Me.CalculateButton.Text = "&Calculate"
+        Me.CalculateButton.UseVisualStyleBackColor = True
         '
         'R1Label
         '
@@ -274,34 +304,9 @@ Partial Class Form1
         Me.AnswersLabel.TabIndex = 21
         Me.AnswersLabel.Text = "Answers"
         '
-        'TextBox1
-        '
-        Me.TextBox1.Location = New System.Drawing.Point(30, 146)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(659, 26)
-        Me.TextBox1.TabIndex = 1
-        '
-        'InputLabel
-        '
-        Me.InputLabel.AutoSize = True
-        Me.InputLabel.Location = New System.Drawing.Point(26, 22)
-        Me.InputLabel.Name = "InputLabel"
-        Me.InputLabel.Size = New System.Drawing.Size(46, 20)
-        Me.InputLabel.TabIndex = 2
-        Me.InputLabel.Text = "Input"
-        '
-        'OutputLabel
-        '
-        Me.OutputLabel.AutoSize = True
-        Me.OutputLabel.Location = New System.Drawing.Point(26, 123)
-        Me.OutputLabel.Name = "OutputLabel"
-        Me.OutputLabel.Size = New System.Drawing.Size(58, 20)
-        Me.OutputLabel.TabIndex = 3
-        Me.OutputLabel.Text = "Output"
-        '
         'WindingResistanceTextBox
         '
-        Me.WindingResistanceTextBox.Location = New System.Drawing.Point(243, 232)
+        Me.WindingResistanceTextBox.Location = New System.Drawing.Point(283, 230)
         Me.WindingResistanceTextBox.Name = "WindingResistanceTextBox"
         Me.WindingResistanceTextBox.Size = New System.Drawing.Size(100, 26)
         Me.WindingResistanceTextBox.TabIndex = 22
@@ -309,17 +314,60 @@ Partial Class Form1
         'WindingResistanceLabel
         '
         Me.WindingResistanceLabel.AutoSize = True
-        Me.WindingResistanceLabel.Location = New System.Drawing.Point(239, 198)
+        Me.WindingResistanceLabel.Location = New System.Drawing.Point(279, 198)
         Me.WindingResistanceLabel.Name = "WindingResistanceLabel"
         Me.WindingResistanceLabel.Size = New System.Drawing.Size(150, 20)
         Me.WindingResistanceLabel.TabIndex = 23
         Me.WindingResistanceLabel.Text = "Winding Resistance"
+        '
+        'FormatGroupBox
+        '
+        Me.FormatGroupBox.Controls.Add(Me.PolarRadioButton)
+        Me.FormatGroupBox.Controls.Add(Me.RectangularRadioButton1)
+        Me.FormatGroupBox.Location = New System.Drawing.Point(283, 298)
+        Me.FormatGroupBox.Name = "FormatGroupBox"
+        Me.FormatGroupBox.Size = New System.Drawing.Size(221, 165)
+        Me.FormatGroupBox.TabIndex = 24
+        Me.FormatGroupBox.TabStop = False
+        '
+        'FormatLabel
+        '
+        Me.FormatLabel.AutoSize = True
+        Me.FormatLabel.Location = New System.Drawing.Point(279, 275)
+        Me.FormatLabel.Name = "FormatLabel"
+        Me.FormatLabel.Size = New System.Drawing.Size(170, 30)
+        Me.FormatLabel.TabIndex = 25
+        Me.FormatLabel.Text = "Output Format"
+        '
+        'RectangularRadioButton1
+        '
+        Me.RectangularRadioButton1.AutoSize = True
+        Me.RectangularRadioButton1.Location = New System.Drawing.Point(6, 25)
+        Me.RectangularRadioButton1.Name = "RectangularRadioButton1"
+        Me.RectangularRadioButton1.Size = New System.Drawing.Size(243, 36)
+        Me.RectangularRadioButton1.TabIndex = 0
+        Me.RectangularRadioButton1.TabStop = True
+        Me.RectangularRadioButton1.Text = "Rectangular Form"
+        Me.RectangularRadioButton1.UseVisualStyleBackColor = True
+        '
+        'PolarRadioButton
+        '
+        Me.PolarRadioButton.AutoSize = True
+        Me.PolarRadioButton.Location = New System.Drawing.Point(6, 95)
+        Me.PolarRadioButton.Name = "PolarRadioButton"
+        Me.PolarRadioButton.Size = New System.Drawing.Size(167, 36)
+        Me.PolarRadioButton.TabIndex = 1
+        Me.PolarRadioButton.TabStop = True
+        Me.PolarRadioButton.Text = "Polar Form"
+        Me.PolarRadioButton.UseVisualStyleBackColor = True
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1660, 1085)
+        Me.Controls.Add(Me.FormatLabel)
+        Me.Controls.Add(Me.FormatGroupBox)
         Me.Controls.Add(Me.WindingResistanceLabel)
         Me.Controls.Add(Me.WindingResistanceTextBox)
         Me.Controls.Add(Me.AnswersLabel)
@@ -350,6 +398,8 @@ Partial Class Form1
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
+        Me.FormatGroupBox.ResumeLayout(False)
+        Me.FormatGroupBox.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -385,4 +435,8 @@ Partial Class Form1
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents WindingResistanceTextBox As TextBox
     Friend WithEvents WindingResistanceLabel As Label
+    Friend WithEvents FormatGroupBox As GroupBox
+    Friend WithEvents FormatLabel As Label
+    Friend WithEvents PolarRadioButton As RadioButton
+    Friend WithEvents RectangularRadioButton1 As RadioButton
 End Class
