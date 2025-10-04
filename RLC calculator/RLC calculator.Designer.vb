@@ -53,10 +53,11 @@ Partial Class Form1
         Me.WindingResistanceTextBox = New System.Windows.Forms.TextBox()
         Me.WindingResistanceLabel = New System.Windows.Forms.Label()
         Me.FormatGroupBox = New System.Windows.Forms.GroupBox()
-        Me.FormatLabel = New System.Windows.Forms.Label()
-        Me.RectangularRadioButton1 = New System.Windows.Forms.RadioButton()
         Me.PolarRadioButton = New System.Windows.Forms.RadioButton()
+        Me.RectangularRadioButton1 = New System.Windows.Forms.RadioButton()
+        Me.FormatLabel = New System.Windows.Forms.Label()
         Me.SourceVoltageTextBox = New System.Windows.Forms.TextBox()
+        Me.TestTextBox = New System.Windows.Forms.TextBox()
         CType(Me.SourceVoltageTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -86,6 +87,7 @@ Partial Class Form1
         Me.SourceFrequencyTextBox.Name = "SourceFrequencyTextBox"
         Me.SourceFrequencyTextBox.Size = New System.Drawing.Size(100, 26)
         Me.SourceFrequencyTextBox.TabIndex = 2
+        Me.SourceFrequencyTextBox.Text = "1 Hz"
         '
         'SourceVoltageLabel
         '
@@ -331,36 +333,36 @@ Partial Class Form1
         Me.FormatGroupBox.TabIndex = 24
         Me.FormatGroupBox.TabStop = False
         '
-        'FormatLabel
+        'PolarRadioButton
         '
-        Me.FormatLabel.AutoSize = True
-        Me.FormatLabel.Location = New System.Drawing.Point(279, 275)
-        Me.FormatLabel.Name = "FormatLabel"
-        Me.FormatLabel.Size = New System.Drawing.Size(170, 30)
-        Me.FormatLabel.TabIndex = 25
-        Me.FormatLabel.Text = "Output Format"
+        Me.PolarRadioButton.AutoSize = True
+        Me.PolarRadioButton.Location = New System.Drawing.Point(6, 95)
+        Me.PolarRadioButton.Name = "PolarRadioButton"
+        Me.PolarRadioButton.Size = New System.Drawing.Size(111, 24)
+        Me.PolarRadioButton.TabIndex = 1
+        Me.PolarRadioButton.TabStop = True
+        Me.PolarRadioButton.Text = "Polar Form"
+        Me.PolarRadioButton.UseVisualStyleBackColor = True
         '
         'RectangularRadioButton1
         '
         Me.RectangularRadioButton1.AutoSize = True
         Me.RectangularRadioButton1.Location = New System.Drawing.Point(6, 25)
         Me.RectangularRadioButton1.Name = "RectangularRadioButton1"
-        Me.RectangularRadioButton1.Size = New System.Drawing.Size(243, 36)
+        Me.RectangularRadioButton1.Size = New System.Drawing.Size(162, 24)
         Me.RectangularRadioButton1.TabIndex = 0
         Me.RectangularRadioButton1.TabStop = True
         Me.RectangularRadioButton1.Text = "Rectangular Form"
         Me.RectangularRadioButton1.UseVisualStyleBackColor = True
         '
-        'PolarRadioButton
+        'FormatLabel
         '
-        Me.PolarRadioButton.AutoSize = True
-        Me.PolarRadioButton.Location = New System.Drawing.Point(6, 95)
-        Me.PolarRadioButton.Name = "PolarRadioButton"
-        Me.PolarRadioButton.Size = New System.Drawing.Size(167, 36)
-        Me.PolarRadioButton.TabIndex = 1
-        Me.PolarRadioButton.TabStop = True
-        Me.PolarRadioButton.Text = "Polar Form"
-        Me.PolarRadioButton.UseVisualStyleBackColor = True
+        Me.FormatLabel.AutoSize = True
+        Me.FormatLabel.Location = New System.Drawing.Point(279, 275)
+        Me.FormatLabel.Name = "FormatLabel"
+        Me.FormatLabel.Size = New System.Drawing.Size(113, 20)
+        Me.FormatLabel.TabIndex = 25
+        Me.FormatLabel.Text = "Output Format"
         '
         'SourceVoltageTextBox
         '
@@ -370,11 +372,19 @@ Partial Class Form1
         Me.SourceVoltageTextBox.TabIndex = 26
         Me.SourceVoltageTextBox.Text = "0 Vp"
         '
+        'TestTextBox
+        '
+        Me.TestTextBox.Location = New System.Drawing.Point(149, 41)
+        Me.TestTextBox.Name = "TestTextBox"
+        Me.TestTextBox.Size = New System.Drawing.Size(100, 26)
+        Me.TestTextBox.TabIndex = 27
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1660, 1085)
+        Me.Controls.Add(Me.TestTextBox)
         Me.Controls.Add(Me.SourceVoltageTextBox)
         Me.Controls.Add(Me.FormatLabel)
         Me.Controls.Add(Me.FormatGroupBox)
@@ -450,4 +460,5 @@ Partial Class Form1
     Friend WithEvents PolarRadioButton As RadioButton
     Friend WithEvents RectangularRadioButton1 As RadioButton
     Friend WithEvents SourceVoltageTextBox As TextBox
+    Friend WithEvents TestTextBox As TextBox
 End Class
