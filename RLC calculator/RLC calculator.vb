@@ -1,4 +1,16 @@
-﻿Public Class Form1
+﻿'Jacob Horsley
+'4/26/2024
+'RLC Calculator
+'RCET 
+'GITHUB:https://github.com/horsjaco117/RLC-calculator
+
+'TODO: 
+'-Concatenate prefixes to values
+'-Eventually add polar to rectangular conversion
+'-Fix the bug where you can type in combobox. That's a big no.
+'Verify the winding resistance text box
+
+Public Class Form1
     Private Sub SourceVoltageTrackBar_Scroll(sender As Object, e As EventArgs) Handles SourceVoltageTrackBar.Scroll
         SourceVoltageTrackBar.Minimum = 0 'Sets minimum input voltage
         SourceVoltageTrackBar.Maximum = 10 'Sets maximum input voltage
@@ -64,6 +76,52 @@
     End Sub
 
 
+    Private Sub WindingResistanceTextBox_TextChanged(sender As Object, e As EventArgs) Handles WindingResistanceTextBox.TextChanged
+        Const MIN_VALUE As Integer = 0
+        Const MAX_VALUE As Integer = 1000000
+        Dim filteredText As String = String.Empty
+        Dim currentValue As Integer
+
+        ' 1. Filter out non-digit characters (keeping your existing logic)
+        For Each c As Char In WindingResistanceTextBox.Text
+            If Char.IsDigit(c) Then
+                filteredText &= c
+            End If
+        Next
+
+        ' 2. Check if the text was changed due to filtering, and reset cursor position
+        If filteredText <> WindingResistanceTextBox.Text Then
+            ' Save and restore cursor position to avoid jumping (see previous answer)
+            Dim cursorPosition As Integer = WindingResistanceTextBox.SelectionStart
+            WindingResistanceTextBox.Text = filteredText
+            If cursorPosition > 0 Then
+                WindingResistanceTextBox.SelectionStart = Math.Min(cursorPosition - 1, filteredText.Length)
+            Else
+                WindingResistanceTextBox.SelectionStart = 0
+            End If
+            ' Exit if text was just corrected, to prevent infinite loop
+            Exit Sub
+        End If
+
+        ' 3. Perform the Min/Max validation on the filtered text
+        If Integer.TryParse(WindingResistanceTextBox.Text, currentValue) Then
+            If currentValue < MIN_VALUE Then
+                ' If less than minimum, set it to the minimum value
+                WindingResistanceTextBox.Text = MIN_VALUE.ToString()
+                ' Place cursor at the end
+                WindingResistanceTextBox.SelectionStart = WindingResistanceTextBox.Text.Length
+            ElseIf currentValue > MAX_VALUE Then
+                ' If greater than maximum, set it to the maximum value
+                WindingResistanceTextBox.Text = MAX_VALUE.ToString()
+                ' Place cursor at the end
+                WindingResistanceTextBox.SelectionStart = WindingResistanceTextBox.Text.Length
+            End If
+        End If
+
+        ' Note: If the text is empty, the TryParse will return False, 
+        ' and the text box will remain empty, which is generally acceptable.
+
+    End Sub
 
     Private Sub ExitButton_Click(sender As Object, e As EventArgs) Handles ExitButton.Click
         Me.Close()
@@ -145,11 +203,4 @@
 
     End Sub
 
-    Private Sub ResistanceComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ResistanceComboBox.SelectedIndexChanged
-
-    End Sub
-
-    Private Sub SourceResistanceComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SourceResistanceComboBox.SelectedIndexChanged
-
-    End Sub
 End Class
