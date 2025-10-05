@@ -63,6 +63,8 @@
         End If
     End Sub
 
+
+
     Private Sub ExitButton_Click(sender As Object, e As EventArgs) Handles ExitButton.Click
         Me.Close()
     End Sub
@@ -71,11 +73,31 @@
         ' Clear any design-time items first, if necessary
         SourceResistanceComboBox.Items.Clear()
 
-        ' Add the required options
+        ' Add the required source resistance values
         SourceResistanceComboBox.Items.Add("50 Ω")
         SourceResistanceComboBox.Items.Add("400 Ω")
 
+        ' Combo box For standard/common values (e.g., 1, 2.2, 4.7, 10, 22, 47, 100).
+
+        'R1 values
+        ResistanceComboBox.Items.Add("1 Ω")
+        ResistanceComboBox.Items.Add("2.2 Ω")
+        ResistanceComboBox.Items.Add("4.7 Ω")
+        ResistanceComboBox.Items.Add("10 Ω")
+        ResistanceComboBox.Items.Add("22 Ω")
+        ResistanceComboBox.Items.Add("47 Ω")
+        ResistanceComboBox.Items.Add("100 Ω")
+
         ' Optional: Select a default item
         SourceResistanceComboBox.SelectedIndex = 0
+        ResistanceComboBox.SelectedIndex = 0
+    End Sub
+
+    Private Sub ResistanceComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ResistanceComboBox.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub SourceResistanceComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SourceResistanceComboBox.SelectedIndexChanged
+
     End Sub
 End Class

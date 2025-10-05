@@ -120,7 +120,7 @@ Partial Class Form1
         Me.SourceResistanceLabel.AutoSize = True
         Me.SourceResistanceLabel.Location = New System.Drawing.Point(12, 70)
         Me.SourceResistanceLabel.Name = "SourceResistanceLabel"
-        Me.SourceResistanceLabel.Size = New System.Drawing.Size(72, 30)
+        Me.SourceResistanceLabel.Size = New System.Drawing.Size(48, 20)
         Me.SourceResistanceLabel.TabIndex = 6
         Me.SourceResistanceLabel.Text = "Rgen"
         '
