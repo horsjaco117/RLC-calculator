@@ -190,7 +190,7 @@ Public Class Form1
         Cap2PrefixComboBox.Items.Add("pF")
         Cap2PrefixComboBox.Items.Add("uF")
 
-        ' Optional: Select a default item
+        'Default items for comboboxes
         SourceResistanceComboBox.SelectedIndex = 0
         ResistanceComboBox.SelectedIndex = 0
         InductanceComboBox.SelectedIndex = 0
@@ -200,6 +200,8 @@ Public Class Form1
         InductorPrefixComboBox.SelectedIndex = 0
         Cap1PrefixComboBox.SelectedIndex = 0
         Cap2PrefixComboBox.SelectedIndex = 0
+
+
 
     End Sub
 

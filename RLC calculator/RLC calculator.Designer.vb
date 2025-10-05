@@ -109,6 +109,7 @@ Partial Class Form1
         '
         'SourceResistanceComboBox
         '
+        Me.SourceResistanceComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.SourceResistanceComboBox.FormattingEnabled = True
         Me.SourceResistanceComboBox.Location = New System.Drawing.Point(12, 93)
         Me.SourceResistanceComboBox.Name = "SourceResistanceComboBox"
@@ -236,6 +237,7 @@ Partial Class Form1
         '
         'ResistanceComboBox
         '
+        Me.ResistanceComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ResistanceComboBox.FormattingEnabled = True
         Me.ResistanceComboBox.Location = New System.Drawing.Point(12, 161)
         Me.ResistanceComboBox.Name = "ResistanceComboBox"
@@ -244,6 +246,7 @@ Partial Class Form1
         '
         'ResistancePrefixComboBox
         '
+        Me.ResistancePrefixComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ResistancePrefixComboBox.FormattingEnabled = True
         Me.ResistancePrefixComboBox.Location = New System.Drawing.Point(149, 161)
         Me.ResistancePrefixComboBox.Name = "ResistancePrefixComboBox"
@@ -252,6 +255,7 @@ Partial Class Form1
         '
         'InductanceComboBox
         '
+        Me.InductanceComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.InductanceComboBox.FormattingEnabled = True
         Me.InductanceComboBox.Location = New System.Drawing.Point(16, 230)
         Me.InductanceComboBox.Name = "InductanceComboBox"
@@ -260,6 +264,7 @@ Partial Class Form1
         '
         'InductorPrefixComboBox
         '
+        Me.InductorPrefixComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.InductorPrefixComboBox.FormattingEnabled = True
         Me.InductorPrefixComboBox.Location = New System.Drawing.Point(149, 230)
         Me.InductorPrefixComboBox.Name = "InductorPrefixComboBox"
@@ -268,6 +273,7 @@ Partial Class Form1
         '
         'Capacitor1ComboBox
         '
+        Me.Capacitor1ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Capacitor1ComboBox.FormattingEnabled = True
         Me.Capacitor1ComboBox.Location = New System.Drawing.Point(283, 41)
         Me.Capacitor1ComboBox.Name = "Capacitor1ComboBox"
@@ -276,6 +282,7 @@ Partial Class Form1
         '
         'Cap1PrefixComboBox
         '
+        Me.Cap1PrefixComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cap1PrefixComboBox.FormattingEnabled = True
         Me.Cap1PrefixComboBox.Location = New System.Drawing.Point(440, 41)
         Me.Cap1PrefixComboBox.Name = "Cap1PrefixComboBox"
@@ -284,6 +291,7 @@ Partial Class Form1
         '
         'Cap2PrefixComboBox
         '
+        Me.Cap2PrefixComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Cap2PrefixComboBox.FormattingEnabled = True
         Me.Cap2PrefixComboBox.Location = New System.Drawing.Point(440, 130)
         Me.Cap2PrefixComboBox.Name = "Cap2PrefixComboBox"
@@ -292,6 +300,7 @@ Partial Class Form1
         '
         'Capacitor2ComboBox
         '
+        Me.Capacitor2ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Capacitor2ComboBox.FormattingEnabled = True
         Me.Capacitor2ComboBox.Location = New System.Drawing.Point(283, 130)
         Me.Capacitor2ComboBox.Name = "Capacitor2ComboBox"
