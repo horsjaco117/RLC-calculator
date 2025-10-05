@@ -88,9 +88,39 @@
         ResistanceComboBox.Items.Add("47 Ω")
         ResistanceComboBox.Items.Add("100 Ω")
 
+        'L1 values
+        InductanceComboBox.Items.Add("1 H")
+        InductanceComboBox.Items.Add("2.2 H")
+        InductanceComboBox.Items.Add("4.7 H")
+        InductanceComboBox.Items.Add("10 H")
+        InductanceComboBox.Items.Add("22 H")
+        InductanceComboBox.Items.Add("47 H")
+        InductanceComboBox.Items.Add("100 H")
+
+        'C1 values
+        Capacitor1ComboBox.Items.Add("1 F")
+        Capacitor1ComboBox.Items.Add("2.2 F")
+        Capacitor1ComboBox.Items.Add("4.7 F")
+        Capacitor1ComboBox.Items.Add("10 F")
+        Capacitor1ComboBox.Items.Add("22 F")
+        Capacitor1ComboBox.Items.Add("47 F")
+        Capacitor1ComboBox.Items.Add("100 F")
+
+        'C2 values
+        Capacitor2ComboBox.Items.Add("1 F")
+        Capacitor2ComboBox.Items.Add("2.2 F")
+        Capacitor2ComboBox.Items.Add("4.7 F")
+        Capacitor2ComboBox.Items.Add("10 F")
+        Capacitor2ComboBox.Items.Add("22 F")
+        Capacitor2ComboBox.Items.Add("47 F")
+        Capacitor2ComboBox.Items.Add("100 F")
+
         ' Optional: Select a default item
         SourceResistanceComboBox.SelectedIndex = 0
         ResistanceComboBox.SelectedIndex = 0
+        InductanceComboBox.SelectedIndex = 0
+        Capacitor1ComboBox.SelectedIndex = 0
+        Capacitor2ComboBox.SelectedIndex = 0
     End Sub
 
     Private Sub ResistanceComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ResistanceComboBox.SelectedIndexChanged
