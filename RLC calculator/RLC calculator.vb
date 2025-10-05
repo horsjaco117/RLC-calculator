@@ -115,12 +115,34 @@
         Capacitor2ComboBox.Items.Add("47 F")
         Capacitor2ComboBox.Items.Add("100 F")
 
+        'Resistance prefixes
+        ResistancePrefixComboBox.Items.Add("Ω")
+        ResistancePrefixComboBox.Items.Add("KΩ")
+        ResistancePrefixComboBox.Items.Add("MΩ")
+
+        ' Inductance prefixes
+        InductorPrefixComboBox.Items.Add("ɥH")
+        InductorPrefixComboBox.Items.Add("mH")
+
+        ' Capacitance1 prefixes
+        Cap1PrefixComboBox.Items.Add("pF")
+        Cap1PrefixComboBox.Items.Add("uF")
+
+        'Capacitance2 prefixes
+        Cap2PrefixComboBox.Items.Add("pF")
+        Cap2PrefixComboBox.Items.Add("uF")
+
         ' Optional: Select a default item
         SourceResistanceComboBox.SelectedIndex = 0
         ResistanceComboBox.SelectedIndex = 0
         InductanceComboBox.SelectedIndex = 0
         Capacitor1ComboBox.SelectedIndex = 0
         Capacitor2ComboBox.SelectedIndex = 0
+        ResistancePrefixComboBox.SelectedIndex = 0
+        InductorPrefixComboBox.SelectedIndex = 0
+        Cap1PrefixComboBox.SelectedIndex = 0
+        Cap2PrefixComboBox.SelectedIndex = 0
+
     End Sub
 
     Private Sub ResistanceComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ResistanceComboBox.SelectedIndexChanged
