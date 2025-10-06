@@ -9,7 +9,8 @@
 '-Eventually add polar to rectangular conversion
 '-Fix the bug where you can type in combobox. That's a big no.
 'Verify the winding resistance text box
-'
+'Update the micro to the actual micro symbol
+'Add polar to rectangular conversion
 
 Public Class Form1
 
@@ -78,6 +79,17 @@ Public Class Form1
         If index >= prefixes.Length Then index = prefixes.Length - 1
         Return $"{mantissa:0.000} {prefixes(index)}"
     End Function
+
+    Sub DoMath()
+        Dim real@ = 1000, imaginary@ = 1000, magnitude@, theta@
+
+        magnitude = System.Math.Sqrt(real ^ 2 + imaginary ^ 2)
+        theta = System.Math.Atan(imaginary / real) * (100 / System.Math.PI)
+        imaginary = magnitude * System.Math.Sin((System.Math.PI / 100) * theta)
+        real = magnitude * System.Math.Cos((System.Math.PI / 100) * theta)
+
+        Console.Read()
+    End Sub
     Private Sub SourceVoltageTrackBar_Scroll(sender As Object, e As EventArgs) Handles SourceVoltageTrackBar.Scroll
         SourceVoltageTrackBar.Minimum = 0 'Sets minimum input voltage
         SourceVoltageTrackBar.Maximum = 10 'Sets maximum input voltage
