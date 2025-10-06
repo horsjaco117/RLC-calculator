@@ -30,9 +30,11 @@ Partial Class Form1
         Me.SourceResistanceComboBox = New System.Windows.Forms.ComboBox()
         Me.SourceResistanceLabel = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.MetrixPrefixOutputLabel = New System.Windows.Forms.Label()
+        Me.MetricPrefixTextBox = New System.Windows.Forms.TextBox()
         Me.OutputLabel = New System.Windows.Forms.Label()
         Me.InputLabel = New System.Windows.Forms.Label()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.OutputTextBox = New System.Windows.Forms.TextBox()
         Me.InputTextBox = New System.Windows.Forms.TextBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.ExitButton = New System.Windows.Forms.Button()
@@ -127,9 +129,11 @@ Partial Class Form1
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.MetrixPrefixOutputLabel)
+        Me.GroupBox1.Controls.Add(Me.MetricPrefixTextBox)
         Me.GroupBox1.Controls.Add(Me.OutputLabel)
         Me.GroupBox1.Controls.Add(Me.InputLabel)
-        Me.GroupBox1.Controls.Add(Me.TextBox1)
+        Me.GroupBox1.Controls.Add(Me.OutputTextBox)
         Me.GroupBox1.Controls.Add(Me.InputTextBox)
         Me.GroupBox1.Location = New System.Drawing.Point(46, 522)
         Me.GroupBox1.Name = "GroupBox1"
@@ -137,6 +141,22 @@ Partial Class Form1
         Me.GroupBox1.TabIndex = 7
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "GroupBox1"
+        '
+        'MetrixPrefixOutputLabel
+        '
+        Me.MetrixPrefixOutputLabel.AutoSize = True
+        Me.MetrixPrefixOutputLabel.Location = New System.Drawing.Point(34, 193)
+        Me.MetrixPrefixOutputLabel.Name = "MetrixPrefixOutputLabel"
+        Me.MetrixPrefixOutputLabel.Size = New System.Drawing.Size(148, 20)
+        Me.MetrixPrefixOutputLabel.TabIndex = 5
+        Me.MetrixPrefixOutputLabel.Text = "Metric Prefix Output"
+        '
+        'MetricPrefixTextBox
+        '
+        Me.MetricPrefixTextBox.Location = New System.Drawing.Point(30, 216)
+        Me.MetricPrefixTextBox.Name = "MetricPrefixTextBox"
+        Me.MetricPrefixTextBox.Size = New System.Drawing.Size(659, 26)
+        Me.MetricPrefixTextBox.TabIndex = 4
         '
         'OutputLabel
         '
@@ -156,12 +176,12 @@ Partial Class Form1
         Me.InputLabel.TabIndex = 2
         Me.InputLabel.Text = "Input"
         '
-        'TextBox1
+        'OutputTextBox
         '
-        Me.TextBox1.Location = New System.Drawing.Point(30, 146)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(659, 26)
-        Me.TextBox1.TabIndex = 1
+        Me.OutputTextBox.Location = New System.Drawing.Point(30, 146)
+        Me.OutputTextBox.Name = "OutputTextBox"
+        Me.OutputTextBox.Size = New System.Drawing.Size(659, 26)
+        Me.OutputTextBox.TabIndex = 1
         '
         'InputTextBox
         '
@@ -461,7 +481,7 @@ Partial Class Form1
     Friend WithEvents AnswersLabel As Label
     Friend WithEvents OutputLabel As Label
     Friend WithEvents InputLabel As Label
-    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents OutputTextBox As TextBox
     Friend WithEvents WindingResistanceTextBox As TextBox
     Friend WithEvents WindingResistanceLabel As Label
     Friend WithEvents FormatGroupBox As GroupBox
@@ -470,4 +490,6 @@ Partial Class Form1
     Friend WithEvents RectangularRadioButton1 As RadioButton
     Friend WithEvents SourceVoltageTextBox As TextBox
     Friend WithEvents TestTextBox As TextBox
+    Friend WithEvents MetrixPrefixOutputLabel As Label
+    Friend WithEvents MetricPrefixTextBox As TextBox
 End Class

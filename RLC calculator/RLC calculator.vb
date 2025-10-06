@@ -9,19 +9,9 @@
 '-Eventually add polar to rectangular conversion
 '-Fix the bug where you can type in combobox. That's a big no.
 'Verify the winding resistance text box
+'
 
 Public Class Form1
-    Private Sub SourceVoltageTrackBar_Scroll(sender As Object, e As EventArgs) Handles SourceVoltageTrackBar.Scroll
-        SourceVoltageTrackBar.Minimum = 0 'Sets minimum input voltage
-        SourceVoltageTrackBar.Maximum = 10 'Sets maximum input voltage
-        SourceVoltageTextBox.Text = SourceVoltageTrackBar.Value.ToString() & " Vp"
-
-    End Sub
-
-    Private Function EngineeringNotation(value As Decimal, fix As Integer) As String
-
-        Return ""
-    End Function
 
     Private Sub CalculateButton_Click(sender As Object, e As EventArgs) Handles CalculateButton.Click
         ' Validate the input exists and is a number
@@ -32,9 +22,10 @@ Public Class Form1
 
                 ' Pass the numeric value directly to the function
                 Dim resultEngineering As String = ToEngineeringNotation(originalValue)
-
+                Dim resultMetricPrefix As String = ToMetricPrefix(originalValue)
                 ' Update the TextBox with the final engineering notation result
-                InputTextBox.Text = resultEngineering
+                OutputTextBox.Text = resultEngineering
+                MetricPrefixTextBox.Text = resultMetricPrefix
             Else
                 ' Handle the case where the numeric parsing failed (shouldn't happen 
                 ' if IsNumeric is true, but good practice)
@@ -65,6 +56,34 @@ Public Class Form1
         ' Format the result: Mantissa (3 decimal places) E Exponent (+ sign for positive)
         Return $"{mantissa:0.000}E{exponent:+00;-00;+00}"
     End Function
+
+    Function ToMetricPrefix(ByVal value As Decimal) As String
+        If value = 0D Then Return "0.000" ' Handle zero case explicitly
+        ' Use Math.Log10 on the absolute value for the exponent calculation
+        ' Convert to Double temporarily for Log10, as there is no Decimal overload
+        Dim log10Value As Double = Math.Log10(CDbl(Math.Abs(value)))
+        ' Calculate the exponent, ensuring it's the largest multiple of 3 less than log10Value
+        ' The division by 3, floor, and multiplication by 3 achieves this.
+        Dim exponent As Integer = CInt(Math.Floor(log10Value / 3)) * 3
+        ' Calculate the mantissa
+        ' Use Math.Pow on a Double base, then convert back to Decimal
+        Dim powerOf10 As Decimal = CDec(Math.Pow(10, exponent))
+        Dim mantissa As Decimal = value / powerOf10
+        ' Format the result: Mantissa (3 decimal places)
+        'Return $"{mantissa:0.000}"
+        'Do loop for metric prefixes
+        Dim prefixes As String() = {"small", "ph", "p", "n", "ɥ", "m", "k", "M", "G", "T"}
+        Dim index As Integer = exponent / 3 + 6 ' Offset by 6 to center around "1"
+        If index < 0 Then index = 0
+        If index >= prefixes.Length Then index = prefixes.Length - 1
+        Return $"{mantissa:0.000} {prefixes(index)}"
+    End Function
+    Private Sub SourceVoltageTrackBar_Scroll(sender As Object, e As EventArgs) Handles SourceVoltageTrackBar.Scroll
+        SourceVoltageTrackBar.Minimum = 0 'Sets minimum input voltage
+        SourceVoltageTrackBar.Maximum = 10 'Sets maximum input voltage
+        SourceVoltageTextBox.Text = SourceVoltageTrackBar.Value.ToString() & " Vp"
+
+    End Sub
 
     Private Sub SourceFrequencyTextBox_KeyPress(sender As Object, e As KeyPressEventArgs) Handles SourceFrequencyTextBox.KeyPress
         ' Allow only digits (0-9) and control characters (e.g., Backspace)
@@ -239,7 +258,5 @@ Public Class Form1
     End Sub
 
 
-    Private Sub InputTextBox_TextChanged(sender As Object, e As EventArgs) Handles InputTextBox.TextChanged
 
-    End Sub
 End Class
