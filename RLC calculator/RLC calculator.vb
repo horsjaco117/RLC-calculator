@@ -18,19 +18,53 @@ Public Class Form1
 
     End Sub
 
+    Private Function EngineeringNotation(value As Decimal, fix As Integer) As String
 
+        Return ""
+    End Function
 
     Private Sub CalculateButton_Click(sender As Object, e As EventArgs) Handles CalculateButton.Click
-        If InputTextBox.Text <> "" And IsNumeric(InputTextBox.Text) Then
-            'get text from textbox1 and format as scientific notation using ToString method
-            InputTextBox.Text = CDec(InputTextBox.Text).ToString("0.00E+00")
-            'split this text and then turn them into engineering notation
-            'test if the exponent thing is divisible by 3
-            'ensure that there are only a couple decimals doing things
+        ' Validate the input exists and is a number
+        If InputTextBox.Text <> "" AndAlso IsNumeric(InputTextBox.Text) Then
+            ' Get the original numeric value as a Decimal (good for precision)
+            Dim originalValue As Decimal
+            If Decimal.TryParse(InputTextBox.Text, originalValue) Then
 
+                ' Pass the numeric value directly to the function
+                Dim resultEngineering As String = ToEngineeringNotation(originalValue)
 
+                ' Update the TextBox with the final engineering notation result
+                InputTextBox.Text = resultEngineering
+            Else
+                ' Handle the case where the numeric parsing failed (shouldn't happen 
+                ' if IsNumeric is true, but good practice)
+                MessageBox.Show("Invalid number format.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        Else
+            ' Handle empty or non-numeric input
+            MessageBox.Show("Please enter a valid number.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End If
+
     End Sub
+    Function ToEngineeringNotation(ByVal value As Decimal) As String
+        If value = 0D Then Return "0.000E+00" ' Handle zero case explicitly
+
+        ' Use Math.Log10 on the absolute value for the exponent calculation
+        ' Convert to Double temporarily for Log10, as there is no Decimal overload
+        Dim log10Value As Double = Math.Log10(CDbl(Math.Abs(value)))
+
+        ' Calculate the exponent, ensuring it's the largest multiple of 3 less than log10Value
+        ' The division by 3, floor, and multiplication by 3 achieves this.
+        Dim exponent As Integer = CInt(Math.Floor(log10Value / 3)) * 3
+
+        ' Calculate the mantissa
+        ' Use Math.Pow on a Double base, then convert back to Decimal
+        Dim powerOf10 As Decimal = CDec(Math.Pow(10, exponent))
+        Dim mantissa As Decimal = value / powerOf10
+
+        ' Format the result: Mantissa (3 decimal places) E Exponent (+ sign for positive)
+        Return $"{mantissa:0.000}E{exponent:+00;-00;+00}"
+    End Function
 
     Private Sub SourceFrequencyTextBox_KeyPress(sender As Object, e As KeyPressEventArgs) Handles SourceFrequencyTextBox.KeyPress
         ' Allow only digits (0-9) and control characters (e.g., Backspace)
@@ -75,7 +109,6 @@ Public Class Form1
         End If
     End Sub
 
-
     Private Sub WindingResistanceTextBox_TextChanged(sender As Object, e As EventArgs) Handles WindingResistanceTextBox.TextChanged
         Const MIN_VALUE As Integer = 0
         Const MAX_VALUE As Integer = 1000000
@@ -119,7 +152,7 @@ Public Class Form1
         End If
 
         ' Note: If the text is empty, the TryParse will return False, 
-        ' and the text box will remain empty, which is generally acceptable.
+        ' and the text box will remain empty.
 
     End Sub
 
@@ -205,4 +238,8 @@ Public Class Form1
 
     End Sub
 
+
+    Private Sub InputTextBox_TextChanged(sender As Object, e As EventArgs) Handles InputTextBox.TextChanged
+
+    End Sub
 End Class
