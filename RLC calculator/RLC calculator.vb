@@ -1,4 +1,7 @@
-﻿'Jacob Horsley
+﻿Option Strict On
+Option Explicit On
+
+'Jacob Horsley
 '4/26/2024
 'RLC Calculator
 'RCET 
@@ -74,14 +77,14 @@ Public Class Form1
         'Return $"{mantissa:0.000}"
         'Do loop for metric prefixes
         Dim prefixes As String() = {"small", "ph", "p", "n", "ɥ", "m", "k", "M", "G", "T"}
-        Dim index As Integer = exponent / 3 + 6 ' Offset by 6 to center around "1"
+        Dim index As Integer = CInt(exponent / 3 + 6) ' Offset by 6 to center around "1"
         If index < 0 Then index = 0
         If index >= prefixes.Length Then index = prefixes.Length - 1
         Return $"{mantissa:0.000} {prefixes(index)}"
     End Function
 
     Sub DoMath()
-        Dim real@ = 1000, imaginary@ = 1000, magnitude@, theta@
+        Dim real As Double = 1000, imaginary As Double = 1000, magnitude As Double, theta As Double
 
         magnitude = System.Math.Sqrt(real ^ 2 + imaginary ^ 2)
         theta = System.Math.Atan(imaginary / real) * (100 / System.Math.PI)

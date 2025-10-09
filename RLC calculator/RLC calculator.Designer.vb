@@ -416,7 +416,7 @@ Partial Class Form1
         Me.PictureBox1.BackgroundImage = Global.RLC_calculator.My.Resources.Resources.AC_SeriesParallel
         Me.PictureBox1.Location = New System.Drawing.Point(868, 91)
         Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(748, 326)
+        Me.PictureBox1.Size = New System.Drawing.Size(738, 326)
         Me.PictureBox1.TabIndex = 28
         Me.PictureBox1.TabStop = False
         '
