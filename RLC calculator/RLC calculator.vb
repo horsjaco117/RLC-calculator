@@ -76,7 +76,7 @@ Public Class Form1
         ' Format the result: Mantissa (3 decimal places)
         'Return $"{mantissa:0.000}"
         'Do loop for metric prefixes
-        Dim prefixes As String() = {"small", "ph", "p", "n", "ɥ", "m", "k", "M", "G", "T"}
+        Dim prefixes As String() = {"small", "ph", "p", "n", "ɥ", "m", "", "k", "M", "G", "T"}
         Dim index As Integer = CInt(exponent / 3 + 6) ' Offset by 6 to center around "1"
         If index < 0 Then index = 0
         If index >= prefixes.Length Then index = prefixes.Length - 1
