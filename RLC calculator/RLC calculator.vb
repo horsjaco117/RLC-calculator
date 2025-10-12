@@ -43,8 +43,9 @@ Public Class Form1
         '---------------------------------------------------------------------------
         'call function(toCapacitiveReactance) to save to a variable
         Dim frequency As Decimal = CDec(SourceFrequencyTextBox.Text)
-        Dim C1Impedance As Decimal = toCapacitiveReactance(CDec(SourceFrequencyTextBox.Text), CDec(Capacitor1ComboBox.Text))
-        Dim multiplier As Decimal = GetCapacitanceMultiplier(Cap1PrefixComboBox.Text)
+        Dim C1Impedance As Decimal = toCapacitiveReactance1(CDec(SourceFrequencyTextBox.Text), CDec(Capacitor1ComboBox.Text))
+        Dim C2Impedance As Decimal = toCapacitiveReactance2(CDec(SourceFrequencyTextBox.Text), CDec(Capacitor2ComboBox.Text))
+        Dim multiplier As Decimal = MetricToDecimal(Cap1PrefixComboBox.Text)
 
 
 
@@ -57,6 +58,7 @@ Public Class Form1
         'test
 
         AnswersListBox.Items.Add("XC1: " & C1Impedance)
+        AnswersListBox.Items.Add("XC2: " & C2Impedance)
 
         'AnswersListBox.Items.Add("Reactance Total:" & Ztotalvaluething)
         'AnswersListBox.Items.Add("Impedance of L1:" &  L1Impedance)
@@ -78,16 +80,25 @@ Public Class Form1
 
     End Sub
 
-    Function toCapacitiveReactance(ByRef frequency As Decimal, ByRef capacitance As Decimal) As Decimal
+    Function toCapacitiveReactance1(ByRef frequency As Decimal, ByRef capacitance As Decimal) As Decimal
         If capacitance <> 0D Then
             'calculate equation 1/((2
-            Return 1 / (2D * CDec(Math.PI) * frequency * (capacitance * GetCapacitanceMultiplier(Cap1PrefixComboBox.Text)))
+            Return 1 / (2D * CDec(Math.PI) * frequency * (capacitance * MetricToDecimal(Cap1PrefixComboBox.Text)))
         Else
             Return Decimal.MaxValue ' Handle division by zero if capacitance is zero
         End If
     End Function
 
-    Function GetCapacitanceMultiplier(ByVal prefix As String) As Decimal
+    Function toCapacitiveReactance2(ByRef frequency As Decimal, ByRef capacitance As Decimal) As Decimal
+        If capacitance <> 0D Then
+            'calculate equation 1/((2
+            Return 1 / (2D * CDec(Math.PI) * frequency * (capacitance * MetricToDecimal(Cap2PrefixComboBox.Text)))
+        Else
+            Return Decimal.MaxValue ' Handle division by zero if capacitance is zero
+        End If
+    End Function
+
+    Function MetricToDecimal(ByVal prefix As String) As Decimal
         Select Case prefix.ToLower().Trim()
             Case "pf" : Return 1D / 1000000000000D ' 10^-12 (Pico)
             Case "nf" : Return 1D / 1000000000D ' 10^-9 (Nano)
