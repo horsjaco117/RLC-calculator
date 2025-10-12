@@ -83,7 +83,7 @@ Partial Class Form1
         Me.AnswersListBox.ItemHeight = 20
         Me.AnswersListBox.Location = New System.Drawing.Point(547, 41)
         Me.AnswersListBox.Name = "AnswersListBox"
-        Me.AnswersListBox.Size = New System.Drawing.Size(243, 404)
+        Me.AnswersListBox.Size = New System.Drawing.Size(296, 404)
         Me.AnswersListBox.TabIndex = 1
         '
         'SourceFrequencyTextBox
