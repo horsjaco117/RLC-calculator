@@ -92,7 +92,7 @@ Partial Class Form1
         Me.SourceFrequencyTextBox.Name = "SourceFrequencyTextBox"
         Me.SourceFrequencyTextBox.Size = New System.Drawing.Size(100, 26)
         Me.SourceFrequencyTextBox.TabIndex = 2
-        Me.SourceFrequencyTextBox.Text = "1 Hz"
+        Me.SourceFrequencyTextBox.Text = "1000 Hz"
         '
         'SourceVoltageLabel
         '

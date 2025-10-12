@@ -56,11 +56,14 @@ Public Class Form1
         AnswersListBox.Items.Add("L1: " & InductanceComboBox.Text)
         AnswersListBox.Items.Add("C1: " & Capacitor1ComboBox.Text)
         AnswersListBox.Items.Add("C2: " & Capacitor2ComboBox.Text)
-        'test
+        'Impedance values
 
         AnswersListBox.Items.Add("XC1: " & C1Impedance)
         AnswersListBox.Items.Add("XC2: " & C2Impedance)
         AnswersListBox.Items.Add("XL1: " & L1Impedance)
+
+        'Reactance Values
+        AnswersListBox.Items.Add("Z Parallel: " & ((1D / L1Impedance) + (1D / C2Impedance)))
 
         'AnswersListBox.Items.Add("Reactance Total:" & Ztotalvaluething)
         'AnswersListBox.Items.Add("Impedance of L1:" &  L1Impedance)
@@ -357,8 +360,8 @@ Public Class Form1
         Capacitor2ComboBox.SelectedIndex = 0
         ResistancePrefixComboBox.SelectedIndex = 0
         InductorPrefixComboBox.SelectedIndex = 0
-        Cap1PrefixComboBox.SelectedIndex = 0
-        Cap2PrefixComboBox.SelectedIndex = 0
+        Cap1PrefixComboBox.SelectedIndex = 1
+        Cap2PrefixComboBox.SelectedIndex = 1
 
 
 
