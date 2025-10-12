@@ -122,5 +122,11 @@
   <ItemGroup>
     <None Include="Resources\AC-SeriesParallel.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AC-SeriesParallel1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Image for Figure 1-1\AC-SeriesParallel.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

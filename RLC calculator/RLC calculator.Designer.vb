@@ -60,13 +60,13 @@ Partial Class Form1
         Me.FormatLabel = New System.Windows.Forms.Label()
         Me.SourceVoltageTextBox = New System.Windows.Forms.TextBox()
         Me.TestTextBox = New System.Windows.Forms.TextBox()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.FigureLabel = New System.Windows.Forms.Label()
+        Me.Figure1PictureBox = New System.Windows.Forms.PictureBox()
         CType(Me.SourceVoltageTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.FormatGroupBox.SuspendLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Figure1PictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'SourceVoltageTrackBar
@@ -411,15 +411,6 @@ Partial Class Form1
         Me.TestTextBox.Size = New System.Drawing.Size(100, 26)
         Me.TestTextBox.TabIndex = 27
         '
-        'PictureBox1
-        '
-        Me.PictureBox1.BackgroundImage = Global.RLC_calculator.My.Resources.Resources.AC_SeriesParallel
-        Me.PictureBox1.Location = New System.Drawing.Point(868, 91)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(738, 326)
-        Me.PictureBox1.TabIndex = 28
-        Me.PictureBox1.TabStop = False
-        '
         'FigureLabel
         '
         Me.FigureLabel.AutoSize = True
@@ -429,13 +420,24 @@ Partial Class Form1
         Me.FigureLabel.TabIndex = 29
         Me.FigureLabel.Text = "Figure 1-1"
         '
+        'Figure1PictureBox
+        '
+        Me.Figure1PictureBox.Image = Global.RLC_calculator.My.Resources.Resources.AC_SeriesParallel1
+        Me.Figure1PictureBox.Location = New System.Drawing.Point(869, 96)
+        Me.Figure1PictureBox.MaximumSize = New System.Drawing.Size(1000, 1000)
+        Me.Figure1PictureBox.Name = "Figure1PictureBox"
+        Me.Figure1PictureBox.Size = New System.Drawing.Size(500, 322)
+        Me.Figure1PictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.Figure1PictureBox.TabIndex = 30
+        Me.Figure1PictureBox.TabStop = False
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1660, 1085)
+        Me.Controls.Add(Me.Figure1PictureBox)
         Me.Controls.Add(Me.FigureLabel)
-        Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.TestTextBox)
         Me.Controls.Add(Me.SourceVoltageTextBox)
         Me.Controls.Add(Me.FormatLabel)
@@ -472,7 +474,7 @@ Partial Class Form1
         Me.GroupBox2.ResumeLayout(False)
         Me.FormatGroupBox.ResumeLayout(False)
         Me.FormatGroupBox.PerformLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Figure1PictureBox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -516,6 +518,6 @@ Partial Class Form1
     Friend WithEvents TestTextBox As TextBox
     Friend WithEvents MetrixPrefixOutputLabel As Label
     Friend WithEvents MetricPrefixTextBox As TextBox
-    Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents FigureLabel As Label
+    Friend WithEvents Figure1PictureBox As PictureBox
 End Class

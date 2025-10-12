@@ -113,7 +113,7 @@ Public Class Form1
         End If
     End Function
 
-    Function JustForInductance(ByVal prefix As String) As Decimal
+    Function JustForInductance(ByVal prefix As String) As Decimal 'Because the inductance is being weird
         Dim cleanPrefix As String = prefix.ToLower().Trim()
         Debug.WriteLine("Inductance Prefix: " & cleanPrefix) ' Debug output to verify prefix
         Select Case cleanPrefix
@@ -390,6 +390,10 @@ Public Class Form1
     End Sub
 
     Private Sub AnswersListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles AnswersListBox.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub PictureBox2_Click(sender As Object, e As EventArgs) Handles Figure1PictureBox.Click
 
     End Sub
 End Class
