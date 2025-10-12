@@ -74,7 +74,8 @@ Public Class Form1
 
         AnswersListBox.Items.Add("XParallel: " & (1D / ((1D / C1Impedance) + (1D / C2Impedance))))
 
-        AnswersListBox.Items.Add("Ztotal: " & (R1))
+        'Ztotal 
+        AnswersListBox.Items.Add("ZTotal: " & Math.Sqrt((R1 * R1) + ((L1Impedance - (1D / ((1D / C1Impedance) + (1D / C2Impedance)))) * (L1Impedance - (1D / ((1D / C1Impedance) + (1D / C2Impedance)))))))
 
 
         'AnswersListBox.Items.Add("Reactance Total:" & Ztotalvaluething)
@@ -405,8 +406,8 @@ Public Class Form1
 
         'Default items for comboboxes
         SourceResistanceComboBox.SelectedIndex = 0
-        ResistanceComboBox.SelectedIndex = 0
-        InductanceComboBox.SelectedIndex = 0
+        ResistanceComboBox.SelectedIndex = 6
+        InductanceComboBox.SelectedIndex = 3
         Capacitor1ComboBox.SelectedIndex = 0
         Capacitor2ComboBox.SelectedIndex = 0
         ResistancePrefixComboBox.SelectedIndex = 0

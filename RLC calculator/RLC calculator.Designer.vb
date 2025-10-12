@@ -345,6 +345,7 @@ Partial Class Form1
         Me.WindingResistanceTextBox.Name = "WindingResistanceTextBox"
         Me.WindingResistanceTextBox.Size = New System.Drawing.Size(100, 26)
         Me.WindingResistanceTextBox.TabIndex = 22
+        Me.WindingResistanceTextBox.Text = "20 Ω"
         '
         'WindingResistanceLabel
         '
