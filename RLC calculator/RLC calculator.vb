@@ -56,7 +56,7 @@ Public Class Form1
 
         ' --------------------------------------------------------------------------
         'AnswersListBox.Items.Add("ZTotal:" & Ztotalvaluething)
-        AnswersListBox.Items.Add("R1: " & ResistanceComboBox.Text)
+        AnswersListBox.Items.Add("R1: " & R1)
         AnswersListBox.Items.Add("L1: " & InductanceComboBox.Text)
         AnswersListBox.Items.Add("C1: " & Capacitor1ComboBox.Text)
         AnswersListBox.Items.Add("C2: " & Capacitor2ComboBox.Text)
@@ -108,7 +108,7 @@ Public Class Form1
 
     Function ToResistance(ByRef resistance As Decimal, ByRef prefix As String) As Decimal
         ' Convert the resistance value based on the selected prefix
-        Return resistance * MetricToDecimal(prefix)
+        Return resistance * JustForResistance(prefix)
     End Function
 
     Function toCapacitiveReactance2(ByRef frequency As Decimal, ByRef capacitance As Decimal) As Decimal
@@ -140,6 +140,20 @@ Public Class Form1
                 Return 1D
         End Select
     End Function
+
+    Function JustForResistance(ByVal prefix As String) As Decimal 'Because the inductance is being weird
+        Dim cleanPrefix As String = prefix.ToLower().Trim()
+        Debug.WriteLine("Resistance Prefix: " & prefix) ' Debug output to verify prefix
+        Select Case prefix
+            Case "Ω" : Return 1D * 1D ' 10^0 (Ohm)
+            Case "KΩ" : Return 1D * 1000D ' 10^3 (Kilo)
+            Case "MΩ" : Return 1D * 1000000D ' 10^6 (Mega)
+            Case Else ' Default to H (Henry) for no prefix or an unknown one
+                Debug.WriteLine("Unknown prefix, defaulting to H")
+                Return 1D
+        End Select
+    End Function
+
     Function MetricToDecimal(ByVal prefix As String) As Decimal
         Select Case prefix.ToLower().Trim()
             Case "pf" : Return 1D / 1000000000000D ' 10^-12 (Pico)
