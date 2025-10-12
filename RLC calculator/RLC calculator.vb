@@ -45,6 +45,7 @@ Public Class Form1
         Dim frequency As Decimal = CDec(SourceFrequencyTextBox.Text)
         Dim C1Impedance As Decimal = toCapacitiveReactance1(CDec(SourceFrequencyTextBox.Text), CDec(Capacitor1ComboBox.Text))
         Dim C2Impedance As Decimal = toCapacitiveReactance2(CDec(SourceFrequencyTextBox.Text), CDec(Capacitor2ComboBox.Text))
+        Dim L1Impedance As Decimal = toInductiveReactance(CDec(SourceFrequencyTextBox.Text), CDec(InductanceComboBox.Text))
         Dim multiplier As Decimal = MetricToDecimal(Cap1PrefixComboBox.Text)
 
 
@@ -59,6 +60,7 @@ Public Class Form1
 
         AnswersListBox.Items.Add("XC1: " & C1Impedance)
         AnswersListBox.Items.Add("XC2: " & C2Impedance)
+        AnswersListBox.Items.Add("XL1: " & L1Impedance)
 
         'AnswersListBox.Items.Add("Reactance Total:" & Ztotalvaluething)
         'AnswersListBox.Items.Add("Impedance of L1:" &  L1Impedance)
@@ -96,6 +98,11 @@ Public Class Form1
         Else
             Return Decimal.MaxValue ' Handle division by zero if capacitance is zero
         End If
+    End Function
+
+    Function toInductiveReactance(ByRef frequency As Decimal, ByRef inductance As Decimal) As Decimal
+        'calculate equation 2 * pi * f * L
+        Return 2D * CDec(Math.PI) * frequency * (inductance * MetricToDecimal(InductorPrefixComboBox.Text))
     End Function
 
     Function MetricToDecimal(ByVal prefix As String) As Decimal
