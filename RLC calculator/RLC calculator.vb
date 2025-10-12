@@ -1,5 +1,8 @@
 ﻿Option Strict On
 Option Explicit On
+Imports System.Xml.Schema
+
+
 
 'Jacob Horsley
 '4/26/2024
@@ -43,6 +46,7 @@ Public Class Form1
         '---------------------------------------------------------------------------
         'call function(toCapacitiveReactance) to save to a variable
         Dim frequency As Decimal = CDec(SourceFrequencyTextBox.Text)
+        Dim R1 As Decimal = ToResistance(CDec(ResistanceComboBox.Text), ResistancePrefixComboBox.Text)
         Dim C1Impedance As Decimal = toCapacitiveReactance1(CDec(SourceFrequencyTextBox.Text), CDec(Capacitor1ComboBox.Text))
         Dim C2Impedance As Decimal = toCapacitiveReactance2(CDec(SourceFrequencyTextBox.Text), CDec(Capacitor2ComboBox.Text))
         Dim L1Impedance As Decimal = toInductiveReactance(CDec(SourceFrequencyTextBox.Text), CDec(InductanceComboBox.Text))
@@ -64,7 +68,14 @@ Public Class Form1
 
         'Reactance Values
         AnswersListBox.Items.Add("Z Parallel: " & ((1D / L1Impedance) + (1D / C2Impedance)))
-        AnswersListBox.Items.Add("ZC1: " & (1D / C1Impedance))
+        AnswersListBox.Items.Add("ZL1: " & (1D / L1Impedance))
+
+        'Impedance parallel
+
+        AnswersListBox.Items.Add("XParallel: " & (1D / ((1D / C1Impedance) + (1D / C2Impedance))))
+
+        AnswersListBox.Items.Add("Ztotal: " & (R1))
+
 
         'AnswersListBox.Items.Add("Reactance Total:" & Ztotalvaluething)
         'AnswersListBox.Items.Add("Impedance of L1:" &  L1Impedance)
@@ -93,6 +104,11 @@ Public Class Form1
         Else
             Return Decimal.MaxValue ' Handle division by zero if capacitance is zero
         End If
+    End Function
+
+    Function ToResistance(ByRef resistance As Decimal, ByRef prefix As String) As Decimal
+        ' Convert the resistance value based on the selected prefix
+        Return resistance * MetricToDecimal(prefix)
     End Function
 
     Function toCapacitiveReactance2(ByRef frequency As Decimal, ByRef capacitance As Decimal) As Decimal
@@ -132,6 +148,9 @@ Public Class Form1
             Case "µH" : Return 1D / 1000000D ' 10^-6 
             Case "mf" : Return 1D / 1000D ' 10^-3 (Milli)
             Case "mH" : Return 1D / 1000D ' 10^-3 
+            Case "Ω" : Return 1D * 1D ' 10^0 (Ohm)
+            Case "kΩ" : Return 1D * 1000D ' 10^3 (Kilo)
+            Case "MΩ" : Return 1D * 1000000D ' 10^6 (Mega)
             Case Else ' Default to F (Farad) for no prefix or an unknown one
                 Return 1D
         End Select
