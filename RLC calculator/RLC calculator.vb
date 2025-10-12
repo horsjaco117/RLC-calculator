@@ -19,10 +19,10 @@ Public Class Form1
 
     Private Sub CalculateButton_Click(sender As Object, e As EventArgs) Handles CalculateButton.Click
         ' Validate the input exists and is a number
-        If InputTextBox.Text <> "" AndAlso IsNumeric(InputTextBox.Text) Then
+        If SourceFrequencyTextBox.Text <> "" AndAlso IsNumeric(SourceFrequencyTextBox.Text) Then
             ' Get the original numeric value as a Decimal (good for precision)
             Dim originalValue As Decimal
-            If Decimal.TryParse(InputTextBox.Text, originalValue) Then
+            If Decimal.TryParse(SourceFrequencyTextBox.Text, originalValue) Then
 
                 ' Pass the numeric value directly to the function
                 Dim resultEngineering As String = ToEngineeringNotation(originalValue)
@@ -39,6 +39,30 @@ Public Class Form1
             ' Handle empty or non-numeric input
             MessageBox.Show("Please enter a valid number.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End If
+
+        ' --------------------------------------------------------------------------
+        'AnswersListBox.Items.Add("ZTotal:" & Ztotalvaluething)
+        AnswersListBox.Items.Add("R1: " & ResistanceComboBox.Text)
+        AnswersListBox.Items.Add("L1: " & InductanceComboBox.Text)
+        AnswersListBox.Items.Add("C1: " & Capacitor1ComboBox.Text)
+        AnswersListBox.Items.Add("C2: " & Capacitor2ComboBox.Text)
+        'AnswersListBox.Items.Add("Reactance Total:" & Ztotalvaluething)
+        'AnswersListBox.Items.Add("Impedance of L1:" &  L1Impedance)
+        'AnswersListBox.Items.Add("Impedance of parallel C1 and C2: " & C1C2Impedance)
+        'AnswersListBox.Items.Add("Vrgen: " & VRgen)
+        'AnswersListBox.Items.Add("VR1: " & VR1)
+        'AnswersListBox.Items.Add("VR2: " & VR2)
+        'AnswersListBox.Items.Add("VL1: " & VL1)
+        'AnswersListBox.Items.Add("VC1: " & VC1)
+        'AnswersListBox.Items.Add("VC2: " & VC2)
+        'AnswersListBox.Items.Add("IR1: " & IR1)
+        'AnswersListBox.Items.Add("IL1: " & IL1)
+        'AnswersListBox.Items.Add("IC1: " & IC1)
+        'AnswersListBox.Items.Add("IC2: " & IC2)
+
+        'Do real power stuff
+        'Do reactive power things
+        'Do apparent power (s) VA
 
     End Sub
     Function ToEngineeringNotation(ByVal value As Decimal) As String
@@ -99,6 +123,8 @@ Public Class Form1
         SourceVoltageTextBox.Text = SourceVoltageTrackBar.Value.ToString() & " Vp"
 
     End Sub
+
+
 
     Private Sub SourceFrequencyTextBox_KeyPress(sender As Object, e As KeyPressEventArgs) Handles SourceFrequencyTextBox.KeyPress
         ' Allow only digits (0-9) and control characters (e.g., Backspace)
@@ -272,6 +298,11 @@ Public Class Form1
 
     End Sub
 
+    Private Sub MetricPrefixTextBox_TextChanged(sender As Object, e As EventArgs) Handles MetricPrefixTextBox.TextChanged
 
+    End Sub
 
+    Private Sub AnswersListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles AnswersListBox.SelectedIndexChanged
+
+    End Sub
 End Class
