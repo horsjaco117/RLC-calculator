@@ -60,10 +60,11 @@ Public Class Form1
 
         AnswersListBox.Items.Add("XC1: " & C1Impedance)
         AnswersListBox.Items.Add("XC2: " & C2Impedance)
-        AnswersListBox.Items.Add("XL1: " & L1Impedance)
+        AnswersListBox.Items.Add("XL1: " & (L1Impedance))
 
         'Reactance Values
         AnswersListBox.Items.Add("Z Parallel: " & ((1D / L1Impedance) + (1D / C2Impedance)))
+        AnswersListBox.Items.Add("ZC1: " & (1D / C1Impedance))
 
         'AnswersListBox.Items.Add("Reactance Total:" & Ztotalvaluething)
         'AnswersListBox.Items.Add("Impedance of L1:" &  L1Impedance)
@@ -104,16 +105,33 @@ Public Class Form1
     End Function
 
     Function toInductiveReactance(ByRef frequency As Decimal, ByRef inductance As Decimal) As Decimal
-        'calculate equation 2 * pi * f * L
-        Return 2D * CDec(Math.PI) * frequency * (inductance * MetricToDecimal(InductorPrefixComboBox.Text))
+        If inductance <> 0D Then
+            'calculate equation 2 * pi * f * L
+            Return 2D * CDec(Math.PI) * frequency * (inductance * JustForInductance(InductorPrefixComboBox.Text))
+        Else
+            Return Decimal.MaxValue ' Handle division by zero if capacitance is zero
+        End If
     End Function
 
+    Function JustForInductance(ByVal prefix As String) As Decimal
+        Dim cleanPrefix As String = prefix.ToLower().Trim()
+        Debug.WriteLine("Inductance Prefix: " & cleanPrefix) ' Debug output to verify prefix
+        Select Case cleanPrefix
+            Case "µh" : Return 1D / 1000000D ' 10^-6 (Micro)
+            Case "mh" : Return 1D / 1000D ' 10^-3 (Milli)
+            Case Else ' Default to H (Henry) for no prefix or an unknown one
+                Debug.WriteLine("Unknown prefix, defaulting to H")
+                Return 1D
+        End Select
+    End Function
     Function MetricToDecimal(ByVal prefix As String) As Decimal
         Select Case prefix.ToLower().Trim()
             Case "pf" : Return 1D / 1000000000000D ' 10^-12 (Pico)
             Case "nf" : Return 1D / 1000000000D ' 10^-9 (Nano)
-            Case "uf" : Return 1D / 1000000D ' 10^-6 (Micro, note: you have "uF" in your code)
+            Case "µf" : Return 1D / 1000000D ' 10^-6 (Micro, note: you have "uF" in your code)
+            Case "µH" : Return 1D / 1000000D ' 10^-6 
             Case "mf" : Return 1D / 1000D ' 10^-3 (Milli)
+            Case "mH" : Return 1D / 1000D ' 10^-3 
             Case Else ' Default to F (Farad) for no prefix or an unknown one
                 Return 1D
         End Select
@@ -341,16 +359,16 @@ Public Class Form1
         ResistancePrefixComboBox.Items.Add("MΩ")
 
         ' Inductance prefixes
-        InductorPrefixComboBox.Items.Add("ɥH")
+        InductorPrefixComboBox.Items.Add("µH")
         InductorPrefixComboBox.Items.Add("mH")
 
         ' Capacitance1 prefixes
         Cap1PrefixComboBox.Items.Add("pF")
-        Cap1PrefixComboBox.Items.Add("uF")
+        Cap1PrefixComboBox.Items.Add("µF")
 
         'Capacitance2 prefixes
         Cap2PrefixComboBox.Items.Add("pF")
-        Cap2PrefixComboBox.Items.Add("uF")
+        Cap2PrefixComboBox.Items.Add("µF")
 
         'Default items for comboboxes
         SourceResistanceComboBox.SelectedIndex = 0
