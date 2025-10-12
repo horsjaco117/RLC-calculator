@@ -40,12 +40,20 @@ Public Class Form1
             MessageBox.Show("Please enter a valid number.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End If
 
+        '---------------------------------------------------------------------------
+        'call function(toCapacitiveReactance) to save to a variable
+        Dim C1Impedance As Decimal = toCapacitiveReactance(CDec(SourceFrequencyTextBox.Text), CDec(Capacitor1ComboBox.Text))
+
         ' --------------------------------------------------------------------------
         'AnswersListBox.Items.Add("ZTotal:" & Ztotalvaluething)
         AnswersListBox.Items.Add("R1: " & ResistanceComboBox.Text)
         AnswersListBox.Items.Add("L1: " & InductanceComboBox.Text)
         AnswersListBox.Items.Add("C1: " & Capacitor1ComboBox.Text)
         AnswersListBox.Items.Add("C2: " & Capacitor2ComboBox.Text)
+        'test
+
+        AnswersListBox.Items.Add("XC1: " & C1Impedance)
+
         'AnswersListBox.Items.Add("Reactance Total:" & Ztotalvaluething)
         'AnswersListBox.Items.Add("Impedance of L1:" &  L1Impedance)
         'AnswersListBox.Items.Add("Impedance of parallel C1 and C2: " & C1C2Impedance)
@@ -65,6 +73,15 @@ Public Class Form1
         'Do apparent power (s) VA
 
     End Sub
+
+    Function toCapacitiveReactance(ByRef frequency As Decimal, ByRef capacitance As Decimal) As Decimal
+        If capacitance <> 0D Then
+            Return 1D / (2D * CDec(Math.PI) * frequency * capacitance)
+        Else
+            Return Decimal.MaxValue ' Handle division by zero if capacitance is zero
+        End If
+    End Function
+
     Function ToEngineeringNotation(ByVal value As Decimal) As String
         If value = 0D Then Return "0.000E+00" ' Handle zero case explicitly
 
@@ -249,7 +266,7 @@ Public Class Form1
         InductanceComboBox.Items.Add("100 H")
 
         'C1 values
-        Capacitor1ComboBox.Items.Add("1 F")
+        Capacitor1ComboBox.Items.Add("1")
         Capacitor1ComboBox.Items.Add("2.2 F")
         Capacitor1ComboBox.Items.Add("4.7 F")
         Capacitor1ComboBox.Items.Add("10 F")
@@ -258,7 +275,7 @@ Public Class Form1
         Capacitor1ComboBox.Items.Add("100 F")
 
         'C2 values
-        Capacitor2ComboBox.Items.Add("1 F")
+        Capacitor2ComboBox.Items.Add("1")
         Capacitor2ComboBox.Items.Add("2.2 F")
         Capacitor2ComboBox.Items.Add("4.7 F")
         Capacitor2ComboBox.Items.Add("10 F")
