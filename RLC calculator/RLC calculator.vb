@@ -42,7 +42,11 @@ Public Class Form1
 
         '---------------------------------------------------------------------------
         'call function(toCapacitiveReactance) to save to a variable
+        Dim frequency As Decimal = CDec(SourceFrequencyTextBox.Text)
         Dim C1Impedance As Decimal = toCapacitiveReactance(CDec(SourceFrequencyTextBox.Text), CDec(Capacitor1ComboBox.Text))
+        Dim multiplier As Decimal = GetCapacitanceMultiplier(Cap1PrefixComboBox.Text)
+
+
 
         ' --------------------------------------------------------------------------
         'AnswersListBox.Items.Add("ZTotal:" & Ztotalvaluething)
@@ -76,10 +80,37 @@ Public Class Form1
 
     Function toCapacitiveReactance(ByRef frequency As Decimal, ByRef capacitance As Decimal) As Decimal
         If capacitance <> 0D Then
-            Return 1D / (2D * CDec(Math.PI) * frequency * capacitance)
+            'calculate equation 1/((2
+            Return 1 / (2D * CDec(Math.PI) * frequency * (capacitance * GetCapacitanceMultiplier(Cap1PrefixComboBox.Text)))
         Else
             Return Decimal.MaxValue ' Handle division by zero if capacitance is zero
         End If
+    End Function
+
+    Function GetCapacitanceMultiplier(ByVal prefix As String) As Decimal
+        Select Case prefix.ToLower().Trim()
+            Case "pf" : Return 1D / 1000000000000D ' 10^-12 (Pico)
+            Case "nf" : Return 1D / 1000000000D ' 10^-9 (Nano)
+            Case "uf" : Return 1D / 1000000D ' 10^-6 (Micro, note: you have "uF" in your code)
+            Case "mf" : Return 1D / 1000D ' 10^-3 (Milli)
+            Case Else ' Default to F (Farad) for no prefix or an unknown one
+                Return 1D
+        End Select
+    End Function
+
+
+
+
+
+
+
+    Function ReplaceSymbol(ByVal text As String) As Decimal
+        ' Remove common unit suffixes and leading/trailing spaces
+        Dim cleanText As String = text.Replace(" Ω", "").Replace("Ω", "").Trim()
+
+        Dim value As Decimal = 0D
+        Decimal.TryParse(cleanText, value) ' Safely try to parse the numeric part
+        Return value
     End Function
 
     Function ToEngineeringNotation(ByVal value As Decimal) As String
@@ -248,40 +279,40 @@ Public Class Form1
         ' Combo box For standard/common values (e.g., 1, 2.2, 4.7, 10, 22, 47, 100).
 
         'R1 values
-        ResistanceComboBox.Items.Add("1 Ω")
-        ResistanceComboBox.Items.Add("2.2 Ω")
-        ResistanceComboBox.Items.Add("4.7 Ω")
-        ResistanceComboBox.Items.Add("10 Ω")
-        ResistanceComboBox.Items.Add("22 Ω")
-        ResistanceComboBox.Items.Add("47 Ω")
-        ResistanceComboBox.Items.Add("100 Ω")
+        ResistanceComboBox.Items.Add("1")
+        ResistanceComboBox.Items.Add("2.2")
+        ResistanceComboBox.Items.Add("4.7")
+        ResistanceComboBox.Items.Add("10")
+        ResistanceComboBox.Items.Add("22")
+        ResistanceComboBox.Items.Add("47")
+        ResistanceComboBox.Items.Add("100")
 
         'L1 values
-        InductanceComboBox.Items.Add("1 H")
-        InductanceComboBox.Items.Add("2.2 H")
-        InductanceComboBox.Items.Add("4.7 H")
-        InductanceComboBox.Items.Add("10 H")
-        InductanceComboBox.Items.Add("22 H")
-        InductanceComboBox.Items.Add("47 H")
-        InductanceComboBox.Items.Add("100 H")
+        InductanceComboBox.Items.Add("1")
+        InductanceComboBox.Items.Add("2.2")
+        InductanceComboBox.Items.Add("4.7")
+        InductanceComboBox.Items.Add("10")
+        InductanceComboBox.Items.Add("22")
+        InductanceComboBox.Items.Add("47")
+        InductanceComboBox.Items.Add("100")
 
         'C1 values
         Capacitor1ComboBox.Items.Add("1")
-        Capacitor1ComboBox.Items.Add("2.2 F")
-        Capacitor1ComboBox.Items.Add("4.7 F")
-        Capacitor1ComboBox.Items.Add("10 F")
-        Capacitor1ComboBox.Items.Add("22 F")
-        Capacitor1ComboBox.Items.Add("47 F")
-        Capacitor1ComboBox.Items.Add("100 F")
+        Capacitor1ComboBox.Items.Add("2.2")
+        Capacitor1ComboBox.Items.Add("4.7")
+        Capacitor1ComboBox.Items.Add("10")
+        Capacitor1ComboBox.Items.Add("22")
+        Capacitor1ComboBox.Items.Add("47")
+        Capacitor1ComboBox.Items.Add("100")
 
         'C2 values
         Capacitor2ComboBox.Items.Add("1")
-        Capacitor2ComboBox.Items.Add("2.2 F")
-        Capacitor2ComboBox.Items.Add("4.7 F")
-        Capacitor2ComboBox.Items.Add("10 F")
-        Capacitor2ComboBox.Items.Add("22 F")
-        Capacitor2ComboBox.Items.Add("47 F")
-        Capacitor2ComboBox.Items.Add("100 F")
+        Capacitor2ComboBox.Items.Add("2.2")
+        Capacitor2ComboBox.Items.Add("4.7")
+        Capacitor2ComboBox.Items.Add("10")
+        Capacitor2ComboBox.Items.Add("22")
+        Capacitor2ComboBox.Items.Add("47")
+        Capacitor2ComboBox.Items.Add("100")
 
         'Resistance prefixes
         ResistancePrefixComboBox.Items.Add("Ω")
