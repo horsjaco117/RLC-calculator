@@ -381,6 +381,7 @@ Partial Class Form1
         'RectangularRadioButton1
         '
         Me.RectangularRadioButton1.AutoSize = True
+        Me.RectangularRadioButton1.Checked = True
         Me.RectangularRadioButton1.Location = New System.Drawing.Point(6, 25)
         Me.RectangularRadioButton1.Name = "RectangularRadioButton1"
         Me.RectangularRadioButton1.Size = New System.Drawing.Size(162, 24)

@@ -21,7 +21,7 @@ Imports System.Numerics
 'Add polar to rectangular conversion
 
 Public Class Form1
-
+    Private UsePolarFormat As Boolean = True
 
     ' ... (rest of the class code) ...
 
@@ -135,53 +135,77 @@ Public Class Form1
                               Return $"{z.Magnitude.ToString("F3")} ∠ {(z.Phase * (180 / Math.PI)).ToString("F3")}°"
                           End Function
 
+        ' Helper function to format complex numbers as Rectangular (Real + j Imaginary)
+        Dim FormatRectangular = Function(z As Complex) As String
+                                    Return $"{z.Real.ToString("F3")} + j{z.Imaginary.ToString("F3")}"
+                                End Function
+
+        ' NEW: Function to return the correct format based on the radio button state
+        Dim FormatComplex = Function(z As Complex) As String
+                                If UsePolarFormat Then
+                                    Return FormatPolar(z)
+                                Else
+                                    Return FormatRectangular(z)
+                                End If
+                            End Function
         ' --------------------------------------------------------------------------
         ' LIST BOX OUTPUT
 
         AnswersListBox.Items.Clear()
 
         ' --- Fixed Order ---
-        AnswersListBox.Items.Add("Z_Total: " & FormatPolar(ZTotal) & " Ω")
-        AnswersListBox.Items.Add("I_Total (Source Current): " & FormatPolar(I_Total) & " A")
-        '--- Component Values 
+        AnswersListBox.Items.Add("--- TOTAL CIRCUIT VALUES ---")
+        AnswersListBox.Items.Add("Z_Total: " & FormatComplex(ZTotal) & " Ω") ' Using Z_Circuit as Z_Total
+        AnswersListBox.Items.Add("I_Total (Source Current): " & FormatComplex(I_Total) & " A")
+        AnswersListBox.Items.Add("Z_Parallel (C2/L1): " & FormatComplex(Z_Parallel_C2L1) & " Ω")
+
+        '--- Component Values (Inputs) ---
+        AnswersListBox.Items.Add("=================================")
+        AnswersListBox.Items.Add("--- COMPONENT INPUTS ---")
+        AnswersListBox.Items.Add("Source R (Rgen): " & SourceResistanceComboBox.Text)
         AnswersListBox.Items.Add("R1: " & ResistanceComboBox.Text & ResistancePrefixComboBox.Text)
         AnswersListBox.Items.Add("C1: " & Capacitor1ComboBox.Text & Cap1PrefixComboBox.Text)
         AnswersListBox.Items.Add("C2: " & Capacitor2ComboBox.Text & Cap2PrefixComboBox.Text)
         AnswersListBox.Items.Add("L1: " & InductanceComboBox.Text & InductorPrefixComboBox.Text)
+        AnswersListBox.Items.Add("L1 Winding R: " & R_Winding_Mag.ToString("F3") & " Ω")
 
-        '   AnswersListBox.Items.Add("=================================")
+        AnswersListBox.Items.Add("=================================")
+        AnswersListBox.Items.Add("R1 (Mag): " & R1_Mag.ToString("F3") & " Ω")
+        AnswersListBox.Items.Add("XC1 (Mag): " & XC1_Mag.ToString("F3") & " Ω")
+        AnswersListBox.Items.Add("XL1 (Mag): " & XL1_Mag.ToString("F3") & " Ω")
 
-        AnswersListBox.Items.Add("R1: " & R1_Mag.ToString("F3") & " Ω")
-        AnswersListBox.Items.Add("XC1: " & XC1_Mag.ToString("F3") & " Ω")
-        AnswersListBox.Items.Add("XL1: " & XL1_Mag.ToString("F3") & " Ω")
-        AnswersListBox.Items.Add("Z_Parallel (C2/L1): " & FormatPolar(Z_Parallel_C2L1) & " Ω")
         ' --- VOLTAGES ---
         AnswersListBox.Items.Add("----------------Voltages-----------------")
-        AnswersListBox.Items.Add("V_Source: " & Vsource_Mag.ToString("F3") & " Vp @ 0°")
-        AnswersListBox.Items.Add("VR1: " & FormatPolar(V_R1) & " V")
-        AnswersListBox.Items.Add("VC1: " & FormatPolar(V_C1) & " V")
-        AnswersListBox.Items.Add("V_Parallel (C2/L1): " & FormatPolar(V_Parallel) & " V")
+        AnswersListBox.Items.Add("V_Source (Total): " & Vsource_Mag.ToString("F3") & " Vp @ 0°")
+        AnswersListBox.Items.Add("Vgen (Source Drop): " & FormatComplex(V_Gen) & " V")
+        AnswersListBox.Items.Add("VR1: " & FormatComplex(V_R1) & " V")
+        AnswersListBox.Items.Add("VC1: " & FormatComplex(V_C1) & " V")
+        AnswersListBox.Items.Add("V_Parallel (C2/L1): " & FormatComplex(V_Parallel) & " V")
 
         ' --- CURRENTS ---
         AnswersListBox.Items.Add("----------------Currents-----------------")
-        AnswersListBox.Items.Add("IR1: " & FormatPolar(I_R1) & " A")
-        AnswersListBox.Items.Add("IC1: " & FormatPolar(I_C1) & " A")
-        AnswersListBox.Items.Add("IC2 (Branch): " & FormatPolar(I_C2) & " A")
-        AnswersListBox.Items.Add("IL1 (Branch): " & FormatPolar(I_L1) & " A")
+        AnswersListBox.Items.Add("IR1: " & FormatComplex(I_R1) & " A")
+        AnswersListBox.Items.Add("IC1: " & FormatComplex(I_C1) & " A")
+        AnswersListBox.Items.Add("IC2 (Branch): " & FormatComplex(I_C2) & " A")
+        AnswersListBox.Items.Add("IL1 (Branch): " & FormatComplex(I_L1) & " A")
 
         ' --- POWER ---
         AnswersListBox.Items.Add("----------------Powers------------------")
-        AnswersListBox.Items.Add("TOTAL POWER (S_Total)")
+        AnswersListBox.Items.Add("TOTAL SOURCE POWER (S_Total)")
         AnswersListBox.Items.Add($"  Apparent Power (S): {S_Total.Magnitude.ToString("F3")} VA")
         AnswersListBox.Items.Add($"  Real Power (P): {S_Total.Real.ToString("F3")} W")
         AnswersListBox.Items.Add($"  Reactive Power (Q): {S_Total.Imaginary.ToString("F3")} VAR")
 
         AnswersListBox.Items.Add("----------------Component Powers-----------------")
+        AnswersListBox.Items.Add($"Rgen (P): {CalculateComplexPower(V_Gen, I_Total).Real.ToString("F3")} W")
         AnswersListBox.Items.Add($"R1 (P): {S_R1.Real.ToString("F3")} W")
         AnswersListBox.Items.Add($"C1 (Q): {S_C1.Imaginary.ToString("F3")} VAR")
-        AnswersListBox.Items.Add($"Parallel (S): {S_Parallel.Magnitude.ToString("F3")} VA")
-        AnswersListBox.Items.Add($"Parallel (Q): {S_Parallel.Imaginary.ToString("F3")} VAR")
 
+        ' Parallel branch power (S_Parallel is the S for the entire parallel block)
+        AnswersListBox.Items.Add($"Parallel Block (S): {S_Parallel.Magnitude.ToString("F3")} VA")
+        AnswersListBox.Items.Add($"Parallel Block (P): {S_Parallel.Real.ToString("F3")} W")
+        AnswersListBox.Items.Add($"Parallel Block (Q): {S_Parallel.Imaginary.ToString("F3")} VAR")
+        AnswersListBox.Items.Add($"L1 Winding Loss (P): {S_L1.Real.ToString("F3")} W") ' P dissipated by L1's winding resistance
     End Sub
 
     Function toCapacitiveReactance1(ByRef frequency As Decimal, ByRef capacitance As Decimal) As Decimal
@@ -429,7 +453,8 @@ Public Class Form1
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Clear any design-time items first, if necessary
-        SourceResistanceComboBox.Items.Clear()
+        'SourceResistanceComboBox.Items.Clear()
+        AnswersListBox.Items.Clear()
 
         ' Add the required source resistance values
         SourceResistanceComboBox.Items.Add("50 Ω")
@@ -506,10 +531,20 @@ Public Class Form1
     End Sub
 
     Private Sub RectangularRadioButton1_CheckedChanged(sender As Object, e As EventArgs) Handles RectangularRadioButton1.CheckedChanged
-
+        If RectangularRadioButton1.Checked Then
+            UsePolarFormat = False
+            ' Recalculate and update the output immediately when the format changes
+            'CalculateButton_Click(Nothing, Nothing)
+        End If
     End Sub
 
     Private Sub PolarRadioButton_CheckedChanged(sender As Object, e As EventArgs) Handles PolarRadioButton.CheckedChanged
-
+        If PolarRadioButton.Checked Then
+            UsePolarFormat = True
+            ' Recalculate and update the output immediately when the format changes
+            'CalculateButton_Click(Nothing, Nothing)
+        End If
     End Sub
+
+
 End Class
