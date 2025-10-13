@@ -24,8 +24,11 @@ Public Class Form1
     Private Sub CalculateButton_Click(sender As Object, e As EventArgs) Handles CalculateButton.Click
         ' ... (Input validation and prefix conversion code remains unchanged) ...
 
-        ' --------------------------------------------------------------------------
-        ' call function(toCapacitiveReactance) to save to a variable
+        ' Define Source Voltage (Assuming a reference phase of 0 degrees)
+        Dim Vsource_Mag As Double = CDbl(SourceVoltageTrackBar.Value) ' Use the trackbar value
+        Dim Z_Source As Complex = New Complex(Vsource_Mag, 0)
+
+        '---------------------------------------------------------------------------
         Dim frequency As Decimal = CDec(SourceFrequencyTextBox.Text)
         Dim R1_Mag As Decimal = ToResistance(CDec(ResistanceComboBox.Text), ResistancePrefixComboBox.Text)
         Dim XC1_Mag As Decimal = toCapacitiveReactance1(CDec(SourceFrequencyTextBox.Text), CDec(Capacitor1ComboBox.Text))
@@ -34,44 +37,73 @@ Public Class Form1
 
         ' --- COMPLEX IMPEDANCE CONVERSION ---
         Dim Z_R1 As Complex = New Complex(CDbl(R1_Mag), 0)
-        Dim Z_C1 As Complex = New Complex(0, -CDbl(XC1_Mag)) ' Capacitive reactance is negative imaginary
-        Dim Z_C2 As Complex = New Complex(0, -CDbl(XC2_Mag)) ' Capacitive reactance is negative imaginary
-        Dim Z_L1 As Complex = New Complex(0, CDbl(XL1_Mag))   ' Inductive reactance is positive imaginary
+        Dim Z_C1 As Complex = New Complex(0, -CDbl(XC1_Mag))
+        Dim Z_C2 As Complex = New Complex(0, -CDbl(XC2_Mag))
+        Dim Z_L1 As Complex = New Complex(0, CDbl(XL1_Mag))
 
         ' --- CALCULATE PARALLEL IMPEDANCE (Zp) ---
-        ' Zp = 1 / (1/Zc2 + 1/Zl1)
         Dim Z_Parallel_C2L1 As Complex = 1.0 / (1.0 / Z_C2 + 1.0 / Z_L1)
 
         ' --- CALCULATE TOTAL SERIES IMPEDANCE (Ztotal) ---
-        ' Ztotal = Z_R1 + Z_C1 + Z_Parallel_C2L1
         Dim Z_Total As Complex = Z_R1 + Z_C1 + Z_Parallel_C2L1
 
-        ' --- EXTRACT RESULTS FOR LISTBOX DISPLAY ---
-        ' The variable Ztotalvaluething is now Z_Total.Magnitude
-        Dim ZtotalMag As Double = Z_Total.Magnitude
-        Dim ZtotalPhaseDeg As Double = Z_Total.Phase * (180 / Math.PI) ' Convert phase from radians to degrees
+        ' --- CALCULATE TOTAL CURRENT (ITotal) ---
+        ' I_Total = V_Source / Z_Total (This is the series current flowing through R1 and C1)
+        Dim I_Total As Complex = Z_Source / Z_Total
+
+        ' --- CALCULATE INDIVIDUAL VOLTAGES (V = I * Z) ---
+        Dim V_R1 As Complex = I_Total * Z_R1
+        Dim V_C1 As Complex = I_Total * Z_C1
+        Dim V_Parallel As Complex = I_Total * Z_Parallel_C2L1
 
         ' --------------------------------------------------------------------------
-        ' The list box output section
+        ' --- CURRENT CALCULATIONS (New Section) ---
+
+        ' 1. Series Components (R1 and C1) current equals the total current.
+        Dim I_R1 As Complex = I_Total
+        Dim I_C1 As Complex = I_Total
+
+        ' 2. Parallel Components (C2 and L1) current using the Current Divider Rule (CDR):
+        ' I_branch = I_total * (Z_other_branch / (Z_branch + Z_other_branch))
+
+        ' I_C2 = I_Total * (Z_L1 / (Z_C2 + Z_L1))
+        Dim I_C2 As Complex = I_Total * (Z_L1 / (Z_C2 + Z_L1))
+
+        ' I_L1 = I_Total * (Z_C2 / (Z_C2 + Z_L1))
+        Dim I_L1 As Complex = I_Total * (Z_C2 / (Z_C2 + Z_L1))
+
+
+        ' --- EXTRACT & FORMAT POLAR RESULTS ---
+
+        ' Helper function to format complex numbers as Polar (Mag < Angle)
+        Dim FormatPolar = Function(z As Complex) As String
+                              Return $"{z.Magnitude.ToString("F3")} ∠ {(z.Phase * (180 / Math.PI)).ToString("F3")}°"
+                          End Function
+
+        ' --------------------------------------------------------------------------
+        ' LIST BOX OUTPUT
+
+        AnswersListBox.Items.Clear()
+
+        ' --- Impedances ---
         AnswersListBox.Items.Add("R1: " & R1_Mag.ToString("F3"))
-        AnswersListBox.Items.Add("L1: " & InductanceComboBox.Text)
-        AnswersListBox.Items.Add("C1: " & Capacitor1ComboBox.Text)
-        AnswersListBox.Items.Add("C2: " & Capacitor2ComboBox.Text)
-
-        ' Impedance values
         AnswersListBox.Items.Add("XC1 (Mag): " & XC1_Mag.ToString("F3"))
-        AnswersListBox.Items.Add("XC2 (Mag): " & XC2_Mag.ToString("F3"))
         AnswersListBox.Items.Add("XL1 (Mag): " & XL1_Mag.ToString("F3"))
+        AnswersListBox.Items.Add("ZTotal: " & FormatPolar(Z_Total))
 
-        ' Parallel Impedance (for information)
-        AnswersListBox.Items.Add("Z || C2/L1 (Mag): " & Z_Parallel_C2L1.Magnitude.ToString("F3") & " ∠ " & (Z_Parallel_C2L1.Phase * (180 / Math.PI)).ToString("F3") & "°")
+        ' --- Current Results (New Output) ---
+        AnswersListBox.Items.Add("---------------------------------")
+        AnswersListBox.Items.Add("Total Current (I_source): " & FormatPolar(I_Total) & " A")
+        AnswersListBox.Items.Add("IR1: " & FormatPolar(I_R1) & " A")
+        AnswersListBox.Items.Add("IC1: " & FormatPolar(I_C1) & " A")
+        AnswersListBox.Items.Add("IC2 (Branch): " & FormatPolar(I_C2) & " A")
+        AnswersListBox.Items.Add("IL1 (Branch): " & FormatPolar(I_L1) & " A")
 
-        ' Ztotal in polar form (This is the final result you asked for)
-        ' This replaces the old Ztotalvaluething calculation entirely
-        AnswersListBox.Items.Add("ZTotal Polar: " & ZtotalMag.ToString("F3") & " ∠ " & ZtotalPhaseDeg.ToString("F3") & "°")
-
-        ' Optionally, display ZTotal in rectangular form:
-        AnswersListBox.Items.Add("ZTotal Rect: " & Z_Total.Real.ToString("F3") & " + j" & Z_Total.Imaginary.ToString("F3"))
+        ' --- Voltage Results ---
+        AnswersListBox.Items.Add("---------------------------------")
+        AnswersListBox.Items.Add("VR1: " & FormatPolar(V_R1) & " V")
+        AnswersListBox.Items.Add("VC1: " & FormatPolar(V_C1) & " V")
+        AnswersListBox.Items.Add("V || C2/L1: " & FormatPolar(V_Parallel) & " V")
 
     End Sub
 

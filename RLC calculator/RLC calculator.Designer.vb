@@ -76,6 +76,7 @@ Partial Class Form1
         Me.SourceVoltageTrackBar.Orientation = System.Windows.Forms.Orientation.Vertical
         Me.SourceVoltageTrackBar.Size = New System.Drawing.Size(69, 160)
         Me.SourceVoltageTrackBar.TabIndex = 0
+        Me.SourceVoltageTrackBar.Value = 5
         '
         'AnswersListBox
         '
@@ -403,7 +404,7 @@ Partial Class Form1
         Me.SourceVoltageTextBox.Name = "SourceVoltageTextBox"
         Me.SourceVoltageTextBox.Size = New System.Drawing.Size(100, 26)
         Me.SourceVoltageTextBox.TabIndex = 26
-        Me.SourceVoltageTextBox.Text = "0 Vp"
+        Me.SourceVoltageTextBox.Text = "5 Vp"
         '
         'TestTextBox
         '
