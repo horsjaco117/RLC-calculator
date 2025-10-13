@@ -29,14 +29,7 @@ Partial Class Form1
         Me.SourceFrequencyLabel = New System.Windows.Forms.Label()
         Me.SourceResistanceComboBox = New System.Windows.Forms.ComboBox()
         Me.SourceResistanceLabel = New System.Windows.Forms.Label()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.MetrixPrefixOutputLabel = New System.Windows.Forms.Label()
-        Me.MetricPrefixTextBox = New System.Windows.Forms.TextBox()
-        Me.OutputLabel = New System.Windows.Forms.Label()
-        Me.InputLabel = New System.Windows.Forms.Label()
-        Me.OutputTextBox = New System.Windows.Forms.TextBox()
-        Me.InputTextBox = New System.Windows.Forms.TextBox()
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.ButtonGroupBox = New System.Windows.Forms.GroupBox()
         Me.ExitButton = New System.Windows.Forms.Button()
         Me.CalculateButton = New System.Windows.Forms.Button()
         Me.R1Label = New System.Windows.Forms.Label()
@@ -63,8 +56,7 @@ Partial Class Form1
         Me.FigureLabel = New System.Windows.Forms.Label()
         Me.Figure1PictureBox = New System.Windows.Forms.PictureBox()
         CType(Me.SourceVoltageTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox1.SuspendLayout()
-        Me.GroupBox2.SuspendLayout()
+        Me.ButtonGroupBox.SuspendLayout()
         Me.FormatGroupBox.SuspendLayout()
         CType(Me.Figure1PictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -82,9 +74,9 @@ Partial Class Form1
         '
         Me.AnswersListBox.FormattingEnabled = True
         Me.AnswersListBox.ItemHeight = 20
-        Me.AnswersListBox.Location = New System.Drawing.Point(547, 41)
+        Me.AnswersListBox.Location = New System.Drawing.Point(1147, 70)
         Me.AnswersListBox.Name = "AnswersListBox"
-        Me.AnswersListBox.Size = New System.Drawing.Size(409, 464)
+        Me.AnswersListBox.Size = New System.Drawing.Size(409, 944)
         Me.AnswersListBox.TabIndex = 1
         '
         'SourceFrequencyTextBox
@@ -131,85 +123,22 @@ Partial Class Form1
         Me.SourceResistanceLabel.TabIndex = 6
         Me.SourceResistanceLabel.Text = "Rgen"
         '
-        'GroupBox1
+        'ButtonGroupBox
         '
-        Me.GroupBox1.Controls.Add(Me.MetrixPrefixOutputLabel)
-        Me.GroupBox1.Controls.Add(Me.MetricPrefixTextBox)
-        Me.GroupBox1.Controls.Add(Me.OutputLabel)
-        Me.GroupBox1.Controls.Add(Me.InputLabel)
-        Me.GroupBox1.Controls.Add(Me.OutputTextBox)
-        Me.GroupBox1.Controls.Add(Me.InputTextBox)
-        Me.GroupBox1.Location = New System.Drawing.Point(46, 522)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(720, 322)
-        Me.GroupBox1.TabIndex = 7
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "GroupBox1"
-        '
-        'MetrixPrefixOutputLabel
-        '
-        Me.MetrixPrefixOutputLabel.AutoSize = True
-        Me.MetrixPrefixOutputLabel.Location = New System.Drawing.Point(34, 193)
-        Me.MetrixPrefixOutputLabel.Name = "MetrixPrefixOutputLabel"
-        Me.MetrixPrefixOutputLabel.Size = New System.Drawing.Size(148, 20)
-        Me.MetrixPrefixOutputLabel.TabIndex = 5
-        Me.MetrixPrefixOutputLabel.Text = "Metric Prefix Output"
-        '
-        'MetricPrefixTextBox
-        '
-        Me.MetricPrefixTextBox.Location = New System.Drawing.Point(30, 216)
-        Me.MetricPrefixTextBox.Name = "MetricPrefixTextBox"
-        Me.MetricPrefixTextBox.Size = New System.Drawing.Size(659, 26)
-        Me.MetricPrefixTextBox.TabIndex = 4
-        '
-        'OutputLabel
-        '
-        Me.OutputLabel.AutoSize = True
-        Me.OutputLabel.Location = New System.Drawing.Point(26, 123)
-        Me.OutputLabel.Name = "OutputLabel"
-        Me.OutputLabel.Size = New System.Drawing.Size(58, 20)
-        Me.OutputLabel.TabIndex = 3
-        Me.OutputLabel.Text = "Output"
-        '
-        'InputLabel
-        '
-        Me.InputLabel.AutoSize = True
-        Me.InputLabel.Location = New System.Drawing.Point(26, 22)
-        Me.InputLabel.Name = "InputLabel"
-        Me.InputLabel.Size = New System.Drawing.Size(46, 20)
-        Me.InputLabel.TabIndex = 2
-        Me.InputLabel.Text = "Input"
-        '
-        'OutputTextBox
-        '
-        Me.OutputTextBox.Location = New System.Drawing.Point(30, 146)
-        Me.OutputTextBox.Name = "OutputTextBox"
-        Me.OutputTextBox.Size = New System.Drawing.Size(659, 26)
-        Me.OutputTextBox.TabIndex = 1
-        '
-        'InputTextBox
-        '
-        Me.InputTextBox.Location = New System.Drawing.Point(30, 50)
-        Me.InputTextBox.Name = "InputTextBox"
-        Me.InputTextBox.Size = New System.Drawing.Size(659, 26)
-        Me.InputTextBox.TabIndex = 0
-        '
-        'GroupBox2
-        '
-        Me.GroupBox2.Controls.Add(Me.ExitButton)
-        Me.GroupBox2.Controls.Add(Me.CalculateButton)
-        Me.GroupBox2.Location = New System.Drawing.Point(892, 534)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(654, 310)
-        Me.GroupBox2.TabIndex = 8
-        Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "GroupBox2"
+        Me.ButtonGroupBox.Controls.Add(Me.ExitButton)
+        Me.ButtonGroupBox.Controls.Add(Me.CalculateButton)
+        Me.ButtonGroupBox.Location = New System.Drawing.Point(0, 513)
+        Me.ButtonGroupBox.Name = "ButtonGroupBox"
+        Me.ButtonGroupBox.Size = New System.Drawing.Size(1093, 310)
+        Me.ButtonGroupBox.TabIndex = 8
+        Me.ButtonGroupBox.TabStop = False
+        Me.ButtonGroupBox.Text = "Buttons"
         '
         'ExitButton
         '
-        Me.ExitButton.Location = New System.Drawing.Point(352, 39)
+        Me.ExitButton.Location = New System.Drawing.Point(577, 37)
         Me.ExitButton.Name = "ExitButton"
-        Me.ExitButton.Size = New System.Drawing.Size(270, 217)
+        Me.ExitButton.Size = New System.Drawing.Size(500, 217)
         Me.ExitButton.TabIndex = 1
         Me.ExitButton.Text = "&Exit"
         Me.ExitButton.UseVisualStyleBackColor = True
@@ -218,7 +147,7 @@ Partial Class Form1
         '
         Me.CalculateButton.Location = New System.Drawing.Point(56, 37)
         Me.CalculateButton.Name = "CalculateButton"
-        Me.CalculateButton.Size = New System.Drawing.Size(244, 219)
+        Me.CalculateButton.Size = New System.Drawing.Size(448, 219)
         Me.CalculateButton.TabIndex = 0
         Me.CalculateButton.Text = "&Calculate"
         Me.CalculateButton.UseVisualStyleBackColor = True
@@ -334,7 +263,7 @@ Partial Class Form1
         'AnswersLabel
         '
         Me.AnswersLabel.AutoSize = True
-        Me.AnswersLabel.Location = New System.Drawing.Point(555, 18)
+        Me.AnswersLabel.Location = New System.Drawing.Point(1143, 29)
         Me.AnswersLabel.Name = "AnswersLabel"
         Me.AnswersLabel.Size = New System.Drawing.Size(70, 20)
         Me.AnswersLabel.TabIndex = 21
@@ -374,7 +303,6 @@ Partial Class Form1
         Me.PolarRadioButton.Name = "PolarRadioButton"
         Me.PolarRadioButton.Size = New System.Drawing.Size(111, 24)
         Me.PolarRadioButton.TabIndex = 1
-        Me.PolarRadioButton.TabStop = True
         Me.PolarRadioButton.Text = "Polar Form"
         Me.PolarRadioButton.UseVisualStyleBackColor = True
         '
@@ -417,7 +345,7 @@ Partial Class Form1
         'FigureLabel
         '
         Me.FigureLabel.AutoSize = True
-        Me.FigureLabel.Location = New System.Drawing.Point(1010, 49)
+        Me.FigureLabel.Location = New System.Drawing.Point(573, 29)
         Me.FigureLabel.Name = "FigureLabel"
         Me.FigureLabel.Size = New System.Drawing.Size(81, 20)
         Me.FigureLabel.TabIndex = 29
@@ -426,7 +354,7 @@ Partial Class Form1
         'Figure1PictureBox
         '
         Me.Figure1PictureBox.Image = Global.RLC_calculator.My.Resources.Resources.AC_SeriesParallel1
-        Me.Figure1PictureBox.Location = New System.Drawing.Point(1014, 96)
+        Me.Figure1PictureBox.Location = New System.Drawing.Point(577, 70)
         Me.Figure1PictureBox.MaximumSize = New System.Drawing.Size(1000, 1000)
         Me.Figure1PictureBox.Name = "Figure1PictureBox"
         Me.Figure1PictureBox.Size = New System.Drawing.Size(500, 322)
@@ -460,8 +388,7 @@ Partial Class Form1
         Me.Controls.Add(Me.C2Label)
         Me.Controls.Add(Me.C1Label)
         Me.Controls.Add(Me.R1Label)
-        Me.Controls.Add(Me.GroupBox2)
-        Me.Controls.Add(Me.GroupBox1)
+        Me.Controls.Add(Me.ButtonGroupBox)
         Me.Controls.Add(Me.SourceResistanceLabel)
         Me.Controls.Add(Me.SourceResistanceComboBox)
         Me.Controls.Add(Me.SourceFrequencyLabel)
@@ -472,9 +399,7 @@ Partial Class Form1
         Me.Name = "Form1"
         Me.Text = "Form1"
         CType(Me.SourceVoltageTrackBar, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
-        Me.GroupBox2.ResumeLayout(False)
+        Me.ButtonGroupBox.ResumeLayout(False)
         Me.FormatGroupBox.ResumeLayout(False)
         Me.FormatGroupBox.PerformLayout()
         CType(Me.Figure1PictureBox, System.ComponentModel.ISupportInitialize).EndInit()
@@ -490,11 +415,9 @@ Partial Class Form1
     Friend WithEvents SourceFrequencyLabel As Label
     Friend WithEvents SourceResistanceComboBox As ComboBox
     Friend WithEvents SourceResistanceLabel As Label
-    Friend WithEvents GroupBox1 As GroupBox
-    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents ButtonGroupBox As GroupBox
     Friend WithEvents ExitButton As Button
     Friend WithEvents CalculateButton As Button
-    Friend WithEvents InputTextBox As TextBox
     Friend WithEvents R1Label As Label
     Friend WithEvents C1Label As Label
     Friend WithEvents C2Label As Label
@@ -508,9 +431,6 @@ Partial Class Form1
     Friend WithEvents Cap2PrefixComboBox As ComboBox
     Friend WithEvents Capacitor2ComboBox As ComboBox
     Friend WithEvents AnswersLabel As Label
-    Friend WithEvents OutputLabel As Label
-    Friend WithEvents InputLabel As Label
-    Friend WithEvents OutputTextBox As TextBox
     Friend WithEvents WindingResistanceTextBox As TextBox
     Friend WithEvents WindingResistanceLabel As Label
     Friend WithEvents FormatGroupBox As GroupBox
@@ -519,8 +439,6 @@ Partial Class Form1
     Friend WithEvents RectangularRadioButton1 As RadioButton
     Friend WithEvents SourceVoltageTextBox As TextBox
     Friend WithEvents TestTextBox As TextBox
-    Friend WithEvents MetrixPrefixOutputLabel As Label
-    Friend WithEvents MetricPrefixTextBox As TextBox
     Friend WithEvents FigureLabel As Label
     Friend WithEvents Figure1PictureBox As PictureBox
 End Class
