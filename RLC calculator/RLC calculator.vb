@@ -3,9 +3,6 @@ Option Explicit On
 Imports System.Xml.Schema
 Imports System.Numerics
 
-
-
-
 'Jacob Horsley
 '4/26/2024
 'RLC Calculator
@@ -23,7 +20,17 @@ Imports System.Numerics
 Public Class Form1
     Private UsePolarFormat As Boolean = True
 
-    ' ... (rest of the class code) ...
+    'Math functions-------------------------------------------------------------------------------------------
+    Sub DoMath()
+        Dim real As Double = 1000, imaginary As Double = 1000, magnitude As Double, theta As Double
+
+        magnitude = System.Math.Sqrt(real ^ 2 + imaginary ^ 2)
+        theta = System.Math.Atan(imaginary / real) * (100 / System.Math.PI)
+        imaginary = magnitude * System.Math.Sin((System.Math.PI / 100) * theta)
+        real = magnitude * System.Math.Cos((System.Math.PI / 100) * theta)
+
+        Console.Read()
+    End Sub
 
     Function CalculateComplexPower(ByVal V As Complex, ByVal I As Complex) As Complex
         ' S = |V| * |I| ∠ (Phase_V - Phase_I)
@@ -42,10 +49,128 @@ Public Class Form1
 
         Return New Complex(RealPartP, ImaginaryPartQ)
     End Function
+    Function toCapacitiveReactance1(ByRef frequency As Decimal, ByRef capacitance As Decimal) As Decimal
+        If capacitance <> 0D Then
+            'calculate equation 1/((2
+            Return 1 / (2D * CDec(Math.PI) * frequency * (capacitance * MetricToDecimal(Cap1PrefixComboBox.Text)))
+        Else
+            Return Decimal.MaxValue ' Handle division by zero if capacitance is zero
+        End If
+    End Function
+    Function ToResistance(ByRef resistance As Decimal, ByRef prefix As String) As Decimal
+        ' Convert the resistance value based on the selected prefix
+        Return resistance * JustForResistance(prefix)
+    End Function
 
+    Function toCapacitiveReactance2(ByRef frequency As Decimal, ByRef capacitance As Decimal) As Decimal
+        If capacitance <> 0D Then
+            'calculate equation 1/((2
+            Return 1 / (2D * CDec(Math.PI) * frequency * (capacitance * MetricToDecimal(Cap2PrefixComboBox.Text)))
+        Else
+            Return Decimal.MaxValue ' Handle division by zero if capacitance is zero
+        End If
+    End Function
+    Function toInductiveReactance(ByRef frequency As Decimal, ByRef inductance As Decimal) As Decimal
+        If inductance <> 0D Then
+            'calculate equation 2 * pi * f * L
+            Return 2D * CDec(Math.PI) * frequency * (inductance * JustForInductance(InductorPrefixComboBox.Text))
+        Else
+            Return Decimal.MaxValue ' Handle division by zero if capacitance is zero
+        End If
+    End Function
+
+    Function JustForInductance(ByVal prefix As String) As Decimal 'Because the inductance is being weird
+        Dim cleanPrefix As String = prefix.ToLower().Trim()
+        Debug.WriteLine("Inductance Prefix: " & cleanPrefix) ' Debug output to verify prefix
+        Select Case cleanPrefix
+            Case "µh" : Return 1D / 1000000D ' 10^-6 (Micro)
+            Case "mh" : Return 1D / 1000D ' 10^-3 (Milli)
+            Case Else ' Default to H (Henry) for no prefix or an unknown one
+                Debug.WriteLine("Unknown prefix, defaulting to H")
+                Return 1D
+        End Select
+    End Function
+
+    Function JustForResistance(ByVal prefix As String) As Decimal 'Because the inductance is being weird
+        Dim cleanPrefix As String = prefix.ToLower().Trim()
+        Debug.WriteLine("Resistance Prefix: " & prefix) ' Debug output to verify prefix
+        Select Case prefix
+            Case "Ω" : Return 1D * 1D ' 10^0 (Ohm)
+            Case "KΩ" : Return 1D * 1000D ' 10^3 (Kilo)
+            Case "MΩ" : Return 1D * 1000000D ' 10^6 (Mega)
+            Case Else ' Default to H (Henry) for no prefix or an unknown one
+                Debug.WriteLine("Unknown prefix, defaulting to H")
+                Return 1D
+        End Select
+    End Function
+
+    Function MetricToDecimal(ByVal prefix As String) As Decimal
+        Select Case prefix.ToLower().Trim()
+            Case "pf" : Return 1D / 1000000000000D ' 10^-12 (Pico)
+            Case "nf" : Return 1D / 1000000000D ' 10^-9 (Nano)
+            Case "µf" : Return 1D / 1000000D ' 10^-6 (Micro, note: you have "uF" in your code)
+            Case "µh" : Return 1D / 1000000D ' 10^-6 
+            Case "mf" : Return 1D / 1000D ' 10^-3 (Milli)
+            Case "mh" : Return 1D / 1000D ' 10^-3 
+            Case "Ω" : Return 1D * 1D ' 10^0 (Ohm)
+            Case "kΩ" : Return 1D * 1000D ' 10^3 (Kilo)
+            Case "mΩ" : Return 1D * 1000000D ' 10^6 (Mega)
+            Case Else
+                Return 1D
+        End Select
+    End Function
+    Function ReplaceSymbol(ByVal text As String) As Decimal
+        ' Remove common unit suffixes and leading/trailing spaces
+        Dim cleanText As String = text.Replace(" Ω", "").Replace("Ω", "").Trim()
+
+        Dim value As Decimal = 0D
+        Decimal.TryParse(cleanText, value) ' Safely try to parse the numeric part
+        Return value
+    End Function
+    Function ToEngineeringNotation(ByVal value As Decimal) As String
+        If value = 0D Then Return "0.000E+00" ' Handle zero case explicitly
+
+        ' Use Math.Log10 on the absolute value for the exponent calculation
+        ' Convert to Double temporarily for Log10, as there is no Decimal overload
+        Dim log10Value As Double = Math.Log10(CDbl(Math.Abs(value)))
+
+        ' Calculate the exponent, ensuring it's the largest multiple of 3 less than log10Value
+        ' The division by 3, floor, and multiplication by 3 achieves this.
+        Dim exponent As Integer = CInt(Math.Floor(log10Value / 3)) * 3
+
+        ' Calculate the mantissa
+        ' Use Math.Pow on a Double base, then convert back to Decimal
+        Dim powerOf10 As Decimal = CDec(Math.Pow(10, exponent))
+        Dim mantissa As Decimal = value / powerOf10
+
+        ' Format the result: Mantissa (3 decimal places) E Exponent (+ sign for positive)
+        Return $"{mantissa:0.000}E{exponent:+00;-00;+00}"
+    End Function
+
+    Function ToMetricPrefix(ByVal value As Decimal) As String
+        If value = 0D Then Return "0.000" ' Handle zero case explicitly
+        ' Use Math.Log10 on the absolute value for the exponent calculation
+        ' Convert to Double temporarily for Log10, as there is no Decimal overload
+        Dim log10Value As Double = Math.Log10(CDbl(Math.Abs(value)))
+        ' Calculate the exponent, ensuring it's the largest multiple of 3 less than log10Value
+        ' The division by 3, floor, and multiplication by 3 achieves this.
+        Dim exponent As Integer = CInt(Math.Floor(log10Value / 3)) * 3
+        ' Calculate the mantissa
+        ' Use Math.Pow on a Double base, then convert back to Decimal
+        Dim powerOf10 As Decimal = CDec(Math.Pow(10, exponent))
+        Dim mantissa As Decimal = value / powerOf10
+        ' Format the result: Mantissa (3 decimal places)
+        'Return $"{mantissa:0.000}"
+        'Do loop for metric prefixes
+        Dim prefixes As String() = {"small", "ph", "p", "n", "ɥ", "m", "", "k", "M", "G", "T"}
+        Dim index As Integer = CInt(exponent / 3 + 6) ' Offset by 6 to center around "1"
+        If index < 0 Then index = 0
+        If index >= prefixes.Length Then index = prefixes.Length - 1
+        Return $"{mantissa:0.000} {prefixes(index)}"
+    End Function
+
+    'Event Handlers-------------------------------------------------------------------------------------------
     Private Sub CalculateButton_Click(sender As Object, e As EventArgs) Handles CalculateButton.Click
-        ' NOTE: Assuming input validation methods like ToEngineeringNotation, ToMetricPrefix, 
-        ' ToResistance, etc., are defined elsewhere in the Form1 class.
 
         ' --- 1. GET MAGNITUDE INPUTS ---
         Dim frequency As Decimal = CDec(SourceFrequencyTextBox.Text)
@@ -56,7 +181,7 @@ Public Class Form1
         Dim XC2_Mag As Decimal = toCapacitiveReactance2(CDec(SourceFrequencyTextBox.Text), CDec(Capacitor2ComboBox.Text))
         Dim XL1_Mag As Decimal = toInductiveReactance(CDec(SourceFrequencyTextBox.Text), CDec(InductanceComboBox.Text))
 
-        ' NEW: Get Rgen (Source Resistance) and R_Winding values
+        ' NEW: Get Rgen (Source Resistance) and R_Winding values. Added too late :(
         Dim R_Gen_Mag As Decimal = ReplaceSymbol(SourceResistanceComboBox.Text)
         Dim R_Winding_Mag As Double = 0.0 ' Default to zero
 
@@ -66,10 +191,9 @@ Public Class Form1
 
         ' --- 2. COMPLEX IMPEDANCE CONVERSION ---
 
-        ' Source/Generator Impedance (Rgen is purely real)
+        ' Source/Generator Impedance (Rgen is in series with R1)
         Dim Z_Gen As Complex = New Complex(CDbl(R_Gen_Mag), 0)
 
-        ' Source Voltage (Vsource is the reference phasor)
         Dim Z_Source As Complex = New Complex(Vsource_Mag, 0)
 
         Dim Z_R1 As Complex = New Complex(CDbl(R1_Mag), 0)
@@ -208,154 +332,12 @@ Public Class Form1
         AnswersListBox.Items.Add($"L1 Winding Loss (P): {S_L1.Real.ToString("F3")} W") ' P dissipated by L1's winding resistance
     End Sub
 
-    Function toCapacitiveReactance1(ByRef frequency As Decimal, ByRef capacitance As Decimal) As Decimal
-        If capacitance <> 0D Then
-            'calculate equation 1/((2
-            Return 1 / (2D * CDec(Math.PI) * frequency * (capacitance * MetricToDecimal(Cap1PrefixComboBox.Text)))
-        Else
-            Return Decimal.MaxValue ' Handle division by zero if capacitance is zero
-        End If
-    End Function
-
-    Function ToResistance(ByRef resistance As Decimal, ByRef prefix As String) As Decimal
-        ' Convert the resistance value based on the selected prefix
-        Return resistance * JustForResistance(prefix)
-    End Function
-
-    Function toCapacitiveReactance2(ByRef frequency As Decimal, ByRef capacitance As Decimal) As Decimal
-        If capacitance <> 0D Then
-            'calculate equation 1/((2
-            Return 1 / (2D * CDec(Math.PI) * frequency * (capacitance * MetricToDecimal(Cap2PrefixComboBox.Text)))
-        Else
-            Return Decimal.MaxValue ' Handle division by zero if capacitance is zero
-        End If
-    End Function
-
-    Function toInductiveReactance(ByRef frequency As Decimal, ByRef inductance As Decimal) As Decimal
-        If inductance <> 0D Then
-            'calculate equation 2 * pi * f * L
-            Return 2D * CDec(Math.PI) * frequency * (inductance * JustForInductance(InductorPrefixComboBox.Text))
-        Else
-            Return Decimal.MaxValue ' Handle division by zero if capacitance is zero
-        End If
-    End Function
-
-    Function JustForInductance(ByVal prefix As String) As Decimal 'Because the inductance is being weird
-        Dim cleanPrefix As String = prefix.ToLower().Trim()
-        Debug.WriteLine("Inductance Prefix: " & cleanPrefix) ' Debug output to verify prefix
-        Select Case cleanPrefix
-            Case "µh" : Return 1D / 1000000D ' 10^-6 (Micro)
-            Case "mh" : Return 1D / 1000D ' 10^-3 (Milli)
-            Case Else ' Default to H (Henry) for no prefix or an unknown one
-                Debug.WriteLine("Unknown prefix, defaulting to H")
-                Return 1D
-        End Select
-    End Function
-
-    Function JustForResistance(ByVal prefix As String) As Decimal 'Because the inductance is being weird
-        Dim cleanPrefix As String = prefix.ToLower().Trim()
-        Debug.WriteLine("Resistance Prefix: " & prefix) ' Debug output to verify prefix
-        Select Case prefix
-            Case "Ω" : Return 1D * 1D ' 10^0 (Ohm)
-            Case "KΩ" : Return 1D * 1000D ' 10^3 (Kilo)
-            Case "MΩ" : Return 1D * 1000000D ' 10^6 (Mega)
-            Case Else ' Default to H (Henry) for no prefix or an unknown one
-                Debug.WriteLine("Unknown prefix, defaulting to H")
-                Return 1D
-        End Select
-    End Function
-
-    Function MetricToDecimal(ByVal prefix As String) As Decimal
-        Select Case prefix.ToLower().Trim()
-            Case "pf" : Return 1D / 1000000000000D ' 10^-12 (Pico)
-            Case "nf" : Return 1D / 1000000000D ' 10^-9 (Nano)
-            Case "µf" : Return 1D / 1000000D ' 10^-6 (Micro, note: you have "uF" in your code)
-            Case "µh" : Return 1D / 1000000D ' 10^-6 
-            Case "mf" : Return 1D / 1000D ' 10^-3 (Milli)
-            Case "mh" : Return 1D / 1000D ' 10^-3 
-            Case "Ω" : Return 1D * 1D ' 10^0 (Ohm)
-            Case "kΩ" : Return 1D * 1000D ' 10^3 (Kilo)
-            Case "mΩ" : Return 1D * 1000000D ' 10^6 (Mega)
-            Case Else ' Default to F (Farad) for no prefix or an unknown one
-                Return 1D
-        End Select
-    End Function
-
-
-
-
-
-
-
-    Function ReplaceSymbol(ByVal text As String) As Decimal
-        ' Remove common unit suffixes and leading/trailing spaces
-        Dim cleanText As String = text.Replace(" Ω", "").Replace("Ω", "").Trim()
-
-        Dim value As Decimal = 0D
-        Decimal.TryParse(cleanText, value) ' Safely try to parse the numeric part
-        Return value
-    End Function
-
-    Function ToEngineeringNotation(ByVal value As Decimal) As String
-        If value = 0D Then Return "0.000E+00" ' Handle zero case explicitly
-
-        ' Use Math.Log10 on the absolute value for the exponent calculation
-        ' Convert to Double temporarily for Log10, as there is no Decimal overload
-        Dim log10Value As Double = Math.Log10(CDbl(Math.Abs(value)))
-
-        ' Calculate the exponent, ensuring it's the largest multiple of 3 less than log10Value
-        ' The division by 3, floor, and multiplication by 3 achieves this.
-        Dim exponent As Integer = CInt(Math.Floor(log10Value / 3)) * 3
-
-        ' Calculate the mantissa
-        ' Use Math.Pow on a Double base, then convert back to Decimal
-        Dim powerOf10 As Decimal = CDec(Math.Pow(10, exponent))
-        Dim mantissa As Decimal = value / powerOf10
-
-        ' Format the result: Mantissa (3 decimal places) E Exponent (+ sign for positive)
-        Return $"{mantissa:0.000}E{exponent:+00;-00;+00}"
-    End Function
-
-    Function ToMetricPrefix(ByVal value As Decimal) As String
-        If value = 0D Then Return "0.000" ' Handle zero case explicitly
-        ' Use Math.Log10 on the absolute value for the exponent calculation
-        ' Convert to Double temporarily for Log10, as there is no Decimal overload
-        Dim log10Value As Double = Math.Log10(CDbl(Math.Abs(value)))
-        ' Calculate the exponent, ensuring it's the largest multiple of 3 less than log10Value
-        ' The division by 3, floor, and multiplication by 3 achieves this.
-        Dim exponent As Integer = CInt(Math.Floor(log10Value / 3)) * 3
-        ' Calculate the mantissa
-        ' Use Math.Pow on a Double base, then convert back to Decimal
-        Dim powerOf10 As Decimal = CDec(Math.Pow(10, exponent))
-        Dim mantissa As Decimal = value / powerOf10
-        ' Format the result: Mantissa (3 decimal places)
-        'Return $"{mantissa:0.000}"
-        'Do loop for metric prefixes
-        Dim prefixes As String() = {"small", "ph", "p", "n", "ɥ", "m", "", "k", "M", "G", "T"}
-        Dim index As Integer = CInt(exponent / 3 + 6) ' Offset by 6 to center around "1"
-        If index < 0 Then index = 0
-        If index >= prefixes.Length Then index = prefixes.Length - 1
-        Return $"{mantissa:0.000} {prefixes(index)}"
-    End Function
-
-    Sub DoMath()
-        Dim real As Double = 1000, imaginary As Double = 1000, magnitude As Double, theta As Double
-
-        magnitude = System.Math.Sqrt(real ^ 2 + imaginary ^ 2)
-        theta = System.Math.Atan(imaginary / real) * (100 / System.Math.PI)
-        imaginary = magnitude * System.Math.Sin((System.Math.PI / 100) * theta)
-        real = magnitude * System.Math.Cos((System.Math.PI / 100) * theta)
-
-        Console.Read()
-    End Sub
     Private Sub SourceVoltageTrackBar_Scroll(sender As Object, e As EventArgs) Handles SourceVoltageTrackBar.Scroll
         SourceVoltageTrackBar.Minimum = 0 'Sets minimum input voltage
         SourceVoltageTrackBar.Maximum = 10 'Sets maximum input voltage
         SourceVoltageTextBox.Text = SourceVoltageTrackBar.Value.ToString() & " Vp"
 
     End Sub
-
-
 
     Private Sub SourceFrequencyTextBox_KeyPress(sender As Object, e As KeyPressEventArgs) Handles SourceFrequencyTextBox.KeyPress
         ' Allow only digits (0-9) and control characters (e.g., Backspace)
@@ -394,7 +376,7 @@ Public Class Form1
                                  MessageBoxButtons.OK,
                                  MessageBoxIcon.Warning)
 
-                ' Optional: Clear the textbox or revert to a valid value after the warning
+                ' Just in case: Clear the textbox or revert to a valid value after the warning
                 ' SourceFrequencyTextBox.Text = "" 
             End If
         End If
@@ -445,10 +427,6 @@ Public Class Form1
         ' Note: If the text is empty, the TryParse will return False, 
         ' and the text box will remain empty.
 
-    End Sub
-
-    Private Sub ExitButton_Click(sender As Object, e As EventArgs) Handles ExitButton.Click
-        Me.Close()
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -546,5 +524,8 @@ Public Class Form1
         End If
     End Sub
 
+    Private Sub ExitButton_Click(sender As Object, e As EventArgs) Handles ExitButton.Click
+        Me.Close()
+    End Sub
 
 End Class
