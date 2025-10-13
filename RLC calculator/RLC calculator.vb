@@ -5,6 +5,7 @@ Imports System.Numerics
 
 
 
+
 'Jacob Horsley
 '4/26/2024
 'RLC Calculator
@@ -21,59 +22,113 @@ Imports System.Numerics
 
 Public Class Form1
 
+
+    ' ... (rest of the class code) ...
+
+    Function CalculateComplexPower(ByVal V As Complex, ByVal I As Complex) As Complex
+        ' S = |V| * |I| ∠ (Phase_V - Phase_I)
+
+        Dim V_Mag As Double = V.Magnitude
+        Dim I_Mag As Double = I.Magnitude
+        Dim V_Phase As Double = V.Phase ' Angle in radians
+        Dim I_Phase As Double = I.Phase ' Angle in radians
+
+        Dim S_Mag As Double = V_Mag * I_Mag
+        Dim S_Phase As Double = V_Phase - I_Phase
+
+        ' Convert the polar result back to a Complex number (Rectangular form S = P + jQ)
+        Dim RealPartP As Double = S_Mag * Math.Cos(S_Phase)
+        Dim ImaginaryPartQ As Double = S_Mag * Math.Sin(S_Phase)
+
+        Return New Complex(RealPartP, ImaginaryPartQ)
+    End Function
+
     Private Sub CalculateButton_Click(sender As Object, e As EventArgs) Handles CalculateButton.Click
-        ' ... (Input validation and prefix conversion code remains unchanged) ...
+        ' NOTE: Assuming input validation methods like ToEngineeringNotation, ToMetricPrefix, 
+        ' ToResistance, etc., are defined elsewhere in the Form1 class.
 
-        ' Define Source Voltage (Assuming a reference phase of 0 degrees)
-        Dim Vsource_Mag As Double = CDbl(SourceVoltageTrackBar.Value) ' Use the trackbar value
-        Dim Z_Source As Complex = New Complex(Vsource_Mag, 0)
-
-        '---------------------------------------------------------------------------
+        ' --- 1. GET MAGNITUDE INPUTS ---
         Dim frequency As Decimal = CDec(SourceFrequencyTextBox.Text)
+        Dim Vsource_Mag As Double = CDbl(SourceVoltageTrackBar.Value)
+
         Dim R1_Mag As Decimal = ToResistance(CDec(ResistanceComboBox.Text), ResistancePrefixComboBox.Text)
         Dim XC1_Mag As Decimal = toCapacitiveReactance1(CDec(SourceFrequencyTextBox.Text), CDec(Capacitor1ComboBox.Text))
         Dim XC2_Mag As Decimal = toCapacitiveReactance2(CDec(SourceFrequencyTextBox.Text), CDec(Capacitor2ComboBox.Text))
         Dim XL1_Mag As Decimal = toInductiveReactance(CDec(SourceFrequencyTextBox.Text), CDec(InductanceComboBox.Text))
 
-        ' --- COMPLEX IMPEDANCE CONVERSION ---
+        ' NEW: Get Rgen (Source Resistance) and R_Winding values
+        Dim R_Gen_Mag As Decimal = ReplaceSymbol(SourceResistanceComboBox.Text)
+        Dim R_Winding_Mag As Double = 0.0 ' Default to zero
+
+        If Not Double.TryParse(WindingResistanceTextBox.Text, R_Winding_Mag) Then
+            R_Winding_Mag = 0.0 ' Ensure a valid numeric value
+        End If
+
+        ' --- 2. COMPLEX IMPEDANCE CONVERSION ---
+
+        ' Source/Generator Impedance (Rgen is purely real)
+        Dim Z_Gen As Complex = New Complex(CDbl(R_Gen_Mag), 0)
+
+        ' Source Voltage (Vsource is the reference phasor)
+        Dim Z_Source As Complex = New Complex(Vsource_Mag, 0)
+
         Dim Z_R1 As Complex = New Complex(CDbl(R1_Mag), 0)
         Dim Z_C1 As Complex = New Complex(0, -CDbl(XC1_Mag))
         Dim Z_C2 As Complex = New Complex(0, -CDbl(XC2_Mag))
-        Dim Z_L1 As Complex = New Complex(0, CDbl(XL1_Mag))
 
-        ' --- CALCULATE PARALLEL IMPEDANCE (Zp) ---
+        ' L1 IMPEDANCE: Includes the Winding Resistance (R_Winding)
+        Dim Z_L1 As Complex = New Complex(R_Winding_Mag, CDbl(XL1_Mag))
+
+        ' --- 3. LOAD IMPEDANCE (Z_Load) ---
+
+        ' Zp = 1 / (1/Zc2 + 1/Zl1)
         Dim Z_Parallel_C2L1 As Complex = 1.0 / (1.0 / Z_C2 + 1.0 / Z_L1)
 
-        ' --- CALCULATE TOTAL SERIES IMPEDANCE (Ztotal) ---
-        Dim Z_Total As Complex = Z_R1 + Z_C1 + Z_Parallel_C2L1
+        ' Z_Load = Z_R1 + Z_C1 + Z_Parallel_C2L1 (All components EXCEPT Rgen)
+        Dim Z_Load As Complex = Z_R1 + Z_C1 + Z_Parallel_C2L1
 
-        ' --- CALCULATE TOTAL CURRENT (ITotal) ---
-        ' I_Total = V_Source / Z_Total (This is the series current flowing through R1 and C1)
-        Dim I_Total As Complex = Z_Source / Z_Total
+        ' --- 4. TOTAL CIRCUIT IMPEDANCE (ZTotal) ---
 
-        ' --- CALCULATE INDIVIDUAL VOLTAGES (V = I * Z) ---
+        ' ZTotal = Z_Gen + Z_Load (Rgen is in series with the whole load)
+        Dim ZTotal As Complex = Z_Gen + Z_Load
+
+        ' --- 5. TOTAL CURRENT (I_Total) ---
+        ' I_Total = V_Source / ZTotal
+        Dim I_Total As Complex = Z_Source / ZTotal
+
+        ' --- 6. INDIVIDUAL VOLTAGES (V = I * Z) ---
+
+        ' Voltage dropped across the source resistor
+        Dim V_Gen As Complex = I_Total * Z_Gen
+
+        ' Voltages across load components
         Dim V_R1 As Complex = I_Total * Z_R1
         Dim V_C1 As Complex = I_Total * Z_C1
         Dim V_Parallel As Complex = I_Total * Z_Parallel_C2L1
 
-        ' --------------------------------------------------------------------------
-        ' --- CURRENT CALCULATIONS (New Section) ---
+        ' Note: V_Parallel + V_C1 + V_R1 + V_Gen should equal Z_Source (Kirchhoff's Voltage Law)
 
-        ' 1. Series Components (R1 and C1) current equals the total current.
+        ' --- 7. INDIVIDUAL CURRENTS (Current Divider Rule) ---
         Dim I_R1 As Complex = I_Total
         Dim I_C1 As Complex = I_Total
-
-        ' 2. Parallel Components (C2 and L1) current using the Current Divider Rule (CDR):
-        ' I_branch = I_total * (Z_other_branch / (Z_branch + Z_other_branch))
-
-        ' I_C2 = I_Total * (Z_L1 / (Z_C2 + Z_L1))
         Dim I_C2 As Complex = I_Total * (Z_L1 / (Z_C2 + Z_L1))
-
-        ' I_L1 = I_Total * (Z_C2 / (Z_C2 + Z_L1))
         Dim I_L1 As Complex = I_Total * (Z_C2 / (Z_C2 + Z_L1))
 
+        ' --- 8. POWER CALCULATIONS (S = V * I*) ---
 
-        ' --- EXTRACT & FORMAT POLAR RESULTS ---
+        ' Total Power (Power supplied by the source)
+        Dim S_Total As Complex = CalculateComplexPower(Z_Source, I_Total)
+
+        ' Component Power
+        Dim S_Gen As Complex = CalculateComplexPower(V_Gen, I_Total)
+        Dim S_R1 As Complex = CalculateComplexPower(V_R1, I_R1)
+        Dim S_C1 As Complex = CalculateComplexPower(V_C1, I_C1)
+        Dim S_Parallel As Complex = CalculateComplexPower(V_Parallel, I_Total)
+
+        ' Individual L1 Power (Note: This includes the winding resistance power)
+        Dim V_L1 As Complex = V_Parallel ' L1 is in parallel with C2, so voltage is V_Parallel
+        Dim S_L1 As Complex = CalculateComplexPower(V_L1, I_L1)
+
 
         ' Helper function to format complex numbers as Polar (Mag < Angle)
         Dim FormatPolar = Function(z As Complex) As String
@@ -85,25 +140,47 @@ Public Class Form1
 
         AnswersListBox.Items.Clear()
 
-        ' --- Impedances ---
-        AnswersListBox.Items.Add("R1: " & R1_Mag.ToString("F3"))
-        AnswersListBox.Items.Add("XC1 (Mag): " & XC1_Mag.ToString("F3"))
-        AnswersListBox.Items.Add("XL1 (Mag): " & XL1_Mag.ToString("F3"))
-        AnswersListBox.Items.Add("ZTotal: " & FormatPolar(Z_Total))
+        ' --- Fixed Order ---
+        AnswersListBox.Items.Add("Z_Total: " & FormatPolar(ZTotal) & " Ω")
+        AnswersListBox.Items.Add("I_Total (Source Current): " & FormatPolar(I_Total) & " A")
+        '--- Component Values 
+        AnswersListBox.Items.Add("R1: " & ResistanceComboBox.Text & ResistancePrefixComboBox.Text)
+        AnswersListBox.Items.Add("C1: " & Capacitor1ComboBox.Text & Cap1PrefixComboBox.Text)
+        AnswersListBox.Items.Add("C2: " & Capacitor2ComboBox.Text & Cap2PrefixComboBox.Text)
+        AnswersListBox.Items.Add("L1: " & InductanceComboBox.Text & InductorPrefixComboBox.Text)
 
-        ' --- Current Results (New Output) ---
-        AnswersListBox.Items.Add("---------------------------------")
-        AnswersListBox.Items.Add("Total Current (I_source): " & FormatPolar(I_Total) & " A")
+        '   AnswersListBox.Items.Add("=================================")
+
+        AnswersListBox.Items.Add("R1: " & R1_Mag.ToString("F3") & " Ω")
+        AnswersListBox.Items.Add("XC1: " & XC1_Mag.ToString("F3") & " Ω")
+        AnswersListBox.Items.Add("XL1: " & XL1_Mag.ToString("F3") & " Ω")
+        AnswersListBox.Items.Add("Z_Parallel (C2/L1): " & FormatPolar(Z_Parallel_C2L1) & " Ω")
+        ' --- VOLTAGES ---
+        AnswersListBox.Items.Add("----------------Voltages-----------------")
+        AnswersListBox.Items.Add("V_Source: " & Vsource_Mag.ToString("F3") & " Vp @ 0°")
+        AnswersListBox.Items.Add("VR1: " & FormatPolar(V_R1) & " V")
+        AnswersListBox.Items.Add("VC1: " & FormatPolar(V_C1) & " V")
+        AnswersListBox.Items.Add("V_Parallel (C2/L1): " & FormatPolar(V_Parallel) & " V")
+
+        ' --- CURRENTS ---
+        AnswersListBox.Items.Add("----------------Currents-----------------")
         AnswersListBox.Items.Add("IR1: " & FormatPolar(I_R1) & " A")
         AnswersListBox.Items.Add("IC1: " & FormatPolar(I_C1) & " A")
         AnswersListBox.Items.Add("IC2 (Branch): " & FormatPolar(I_C2) & " A")
         AnswersListBox.Items.Add("IL1 (Branch): " & FormatPolar(I_L1) & " A")
 
-        ' --- Voltage Results ---
-        AnswersListBox.Items.Add("---------------------------------")
-        AnswersListBox.Items.Add("VR1: " & FormatPolar(V_R1) & " V")
-        AnswersListBox.Items.Add("VC1: " & FormatPolar(V_C1) & " V")
-        AnswersListBox.Items.Add("V || C2/L1: " & FormatPolar(V_Parallel) & " V")
+        ' --- POWER ---
+        AnswersListBox.Items.Add("----------------Powers------------------")
+        AnswersListBox.Items.Add("TOTAL POWER (S_Total)")
+        AnswersListBox.Items.Add($"  Apparent Power (S): {S_Total.Magnitude.ToString("F3")} VA")
+        AnswersListBox.Items.Add($"  Real Power (P): {S_Total.Real.ToString("F3")} W")
+        AnswersListBox.Items.Add($"  Reactive Power (Q): {S_Total.Imaginary.ToString("F3")} VAR")
+
+        AnswersListBox.Items.Add("----------------Component Powers-----------------")
+        AnswersListBox.Items.Add($"R1 (P): {S_R1.Real.ToString("F3")} W")
+        AnswersListBox.Items.Add($"C1 (Q): {S_C1.Imaginary.ToString("F3")} VAR")
+        AnswersListBox.Items.Add($"Parallel (S): {S_Parallel.Magnitude.ToString("F3")} VA")
+        AnswersListBox.Items.Add($"Parallel (Q): {S_Parallel.Imaginary.ToString("F3")} VAR")
 
     End Sub
 
@@ -428,5 +505,11 @@ Public Class Form1
 
     End Sub
 
+    Private Sub RectangularRadioButton1_CheckedChanged(sender As Object, e As EventArgs) Handles RectangularRadioButton1.CheckedChanged
 
+    End Sub
+
+    Private Sub PolarRadioButton_CheckedChanged(sender As Object, e As EventArgs) Handles PolarRadioButton.CheckedChanged
+
+    End Sub
 End Class

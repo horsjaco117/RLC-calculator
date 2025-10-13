@@ -84,7 +84,7 @@ Partial Class Form1
         Me.AnswersListBox.ItemHeight = 20
         Me.AnswersListBox.Location = New System.Drawing.Point(547, 41)
         Me.AnswersListBox.Name = "AnswersListBox"
-        Me.AnswersListBox.Size = New System.Drawing.Size(296, 404)
+        Me.AnswersListBox.Size = New System.Drawing.Size(409, 464)
         Me.AnswersListBox.TabIndex = 1
         '
         'SourceFrequencyTextBox
@@ -416,7 +416,7 @@ Partial Class Form1
         'FigureLabel
         '
         Me.FigureLabel.AutoSize = True
-        Me.FigureLabel.Location = New System.Drawing.Point(888, 70)
+        Me.FigureLabel.Location = New System.Drawing.Point(1010, 49)
         Me.FigureLabel.Name = "FigureLabel"
         Me.FigureLabel.Size = New System.Drawing.Size(81, 20)
         Me.FigureLabel.TabIndex = 29
@@ -425,7 +425,7 @@ Partial Class Form1
         'Figure1PictureBox
         '
         Me.Figure1PictureBox.Image = Global.RLC_calculator.My.Resources.Resources.AC_SeriesParallel1
-        Me.Figure1PictureBox.Location = New System.Drawing.Point(869, 96)
+        Me.Figure1PictureBox.Location = New System.Drawing.Point(1014, 96)
         Me.Figure1PictureBox.MaximumSize = New System.Drawing.Size(1000, 1000)
         Me.Figure1PictureBox.Name = "Figure1PictureBox"
         Me.Figure1PictureBox.Size = New System.Drawing.Size(500, 322)
